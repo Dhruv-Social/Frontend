@@ -47,19 +47,31 @@
       input[type="text"],
       input[type="email"] {
         width: 40%;
-        height: 50px;
 
         background-color: $grey;
+        color: $white;
 
-        border: none;
+        border: 0.2rem rgba($grey, 0.5) solid;
+
         border-radius: 2rem;
+        padding: 1rem;
+
+        transition: all 0.3s ease-in-out;
       }
 
-      article {
+      input[type="text"]:hover,
+      input[type="email"]:hover {
+        border: 0.2rem $accent solid;
+      }
+
+      section {
         width: 100%;
+
         display: flex;
         align-items: center;
         justify-content: center;
+
+        gap: 0.5rem;
 
         input[type="checkbox"] {
           height: 50px;
@@ -90,7 +102,42 @@
 
         border: none;
         border-radius: 2rem;
+
+        cursor: pointer;
       }
     }
+  }
+}
+
+.DHS__Signup__Circles {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .DHS__Signup__Circle__Active {
+    width: 30px;
+    height: 30px;
+
+    margin: 1rem;
+
+    background-color: $accent;
+
+    border-radius: 50%;
+  }
+
+  .DHS__Signup__Circle__NotActive {
+    width: 30px;
+    height: 30px;
+
+    margin: 1rem;
+
+    background-color: $grey;
+
+    border-radius: 50%;
   }
 }

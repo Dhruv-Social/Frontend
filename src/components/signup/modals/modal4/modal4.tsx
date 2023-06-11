@@ -26,13 +26,15 @@ const SignupModal4: FC<ISignUpModal4Props> = ({ modal, setModal }) => {
       >
         <div>
           <label htmlFor="">Terms and Conditions</label>
-          <article>
+          <section>
             <input type="checkbox" />
-            <div>
-              <p>Don't know them?</p>
-              <a href="">Click here</a>
-            </div>
-          </article>
+            <article>
+              <p>Dont know them?</p>
+              <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0">
+                Click Here
+              </a>
+            </article>
+          </section>
         </div>
 
         <section>

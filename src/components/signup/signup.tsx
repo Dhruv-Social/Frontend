@@ -2,8 +2,7 @@ import "./signup.scss";
 
 import { FC, useState } from "react";
 
-import DhruvSocial3 from "../../assets/blobs/dhruv_social3.png";
-import DhruvSocial6 from "../../assets/blobs/dhruv_social6.png";
+import { IUser } from "./signupInterface";
 
 // Modals
 import SignupModal1 from "./modals/modal1/modal1";
@@ -15,9 +14,18 @@ interface ISignUpProps {}
 
 const Signup: FC<ISignUpProps> = ({}) => {
   let [modal, setModal] = useState<number>(0);
+  let [useData, setUserData] = useState<IUser>({
+    username: null,
+    displayName: null,
+    firstname: null,
+    lastname: null,
+    email: null,
+    phonenumber: null,
+    password: null,
+  });
 
   return (
-    <main className="DHS__Signup">
+    <>
       {modal === 0 ? (
         <SignupModal1 modal={modal} setModal={setModal} />
       ) : modal === 1 ? (
@@ -27,7 +35,33 @@ const Signup: FC<ISignUpProps> = ({}) => {
       ) : (
         <SignupModal4 modal={modal} setModal={setModal} />
       )}
-    </main>
+
+      <div className="DHS__Signup__Circles">
+        {modal === 0 ? (
+          <div className="DHS__Signup__Circle__Active"></div>
+        ) : (
+          <div className="DHS__Signup__Circle__NotActive"></div>
+        )}
+
+        {modal === 1 ? (
+          <div className="DHS__Signup__Circle__Active"></div>
+        ) : (
+          <div className="DHS__Signup__Circle__NotActive"></div>
+        )}
+
+        {modal === 2 ? (
+          <div className="DHS__Signup__Circle__Active"></div>
+        ) : (
+          <div className="DHS__Signup__Circle__NotActive"></div>
+        )}
+
+        {modal === 3 ? (
+          <div className="DHS__Signup__Circle__Active"></div>
+        ) : (
+          <div className="DHS__Signup__Circle__NotActive"></div>
+        )}
+      </div>
+    </>
   );
 };
 
