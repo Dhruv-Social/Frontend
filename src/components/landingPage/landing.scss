@@ -1,0 +1,84 @@
+@import "../../App.scss";
+
+/* DHS__Landing */
+.DHS__Landing {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-image: linear-gradient(
+      rgba(24, 24, 24, 0.9),
+      rgba(24, 24, 24, 0.9)
+    ),
+    url("../../assets/icon/landingPageDhruvSocial.avif");
+  background-position: center;
+  background-repeat: repeat;
+  background-size: cover;
+
+  color: $white;
+}
+
+/* DHS__Landing Left */
+.DHS__Landing__Left {
+  width: 50%;
+  height: 100vh;
+
+  background-image: url("../../assets/icon/dhruv_social.png");
+
+  background-position: center;
+  background-repeat: repeat;
+  background-size: cover;
+}
+
+/* DHS__Landing Right */
+.DHS__Landing__Right {
+  width: 50%;
+  height: 100vh;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.DHS__Landing__Right {
+  h1 {
+    font-size: 4rem;
+  }
+
+  h2 {
+    font-size: 3rem;
+    font-weight: lighter;
+  }
+
+  .DHS__Landing__Right__JoinUs {
+    width: 40%;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+
+    border-radius: 2rem;
+    background-color: $accent;
+    color: $white;
+    border: $accent;
+
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .DHS__Landing__Right__LogIn {
+    width: 40%;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+
+    border-radius: 2rem;
+    background-color: transparent;
+    color: $white;
+    border: 0.2rem solid $accent;
+
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+}

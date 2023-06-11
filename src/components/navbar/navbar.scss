@@ -1,0 +1,55 @@
+@import "../../App.scss";
+
+// Not Logged In
+.DHS__Navbar__NotLoggedIn {
+  width: 95%;
+  margin: 2rem 2.5%;
+  height: 10vh;
+
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.DHS__Navbar__NotLoggedIn {
+  img {
+    width: 10%;
+  }
+}
+
+// Logged In
+.DHS__Navbar__LoggedIn {
+  width: 95%;
+  margin: 1rem 2.5%;
+  height: 10vh;
+
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.DHS__Navbar__LoggedIn {
+  img {
+    width: 10%;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    height: 7vh;
+
+    width: 4.5%;
+
+    div {
+      width: 100%;
+      height: 15%;
+      background-color: $white;
+    }
+  }
+}

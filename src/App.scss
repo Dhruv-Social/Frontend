@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+/* Colours */
+$accent: #5b2333;
+$black: #1e1e1e;
+$white: #f7f4f3;
+$grey: #564d4a;
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: $black;
+  overflow: hidden;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
