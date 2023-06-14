@@ -15,6 +15,7 @@
     position: absolute;
     top: -20%;
     right: -15rem;
+
     width: 640px;
     height: 780px;
   }
@@ -23,6 +24,7 @@
     position: absolute;
     bottom: -20%;
     left: -15rem;
+
     width: 640px;
     height: 780px;
   }
@@ -45,15 +47,18 @@
 
     .DHS__Login__Submit {
       width: 45%;
+
       margin: 0.5rem 0;
       padding: 0.5rem;
 
       border-radius: 2rem;
-      background-color: $accent;
-      color: $white;
       border: $accent;
 
+      background-color: $accent;
+      color: $white;
+
       font-size: 1.5rem;
+
       cursor: pointer;
     }
 
