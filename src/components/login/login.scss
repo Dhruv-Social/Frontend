@@ -77,9 +77,13 @@
       }
 
       input {
-        background-color: $grey;
         width: 30%;
+
         padding: 0.5rem;
+
+        background-color: $grey;
+        color: $white;
+
         border: none;
         border-radius: 2rem;
       }

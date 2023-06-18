@@ -1,8 +1,13 @@
 import "./signup.scss";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
-import { IUser } from "./signupInterface";
+import {
+  IUser,
+  IUserModal1,
+  IUserModal2,
+  IUserModal3,
+} from "./signupInterface";
 
 // Modals
 import SignupModal1 from "./modals/modal1/modal1";
@@ -14,7 +19,7 @@ interface ISignUpProps {}
 
 const Signup: FC<ISignUpProps> = ({}) => {
   let [modal, setModal] = useState<number>(0);
-  let [useData, setUserData] = useState<IUser>({
+  let [userData, setUserData] = useState<IUser>({
     username: null,
     displayName: null,
     firstname: null,
@@ -24,10 +29,23 @@ const Signup: FC<ISignUpProps> = ({}) => {
     password: null,
   });
 
+  // User Data
+  let [userDataModal1, setUserDataModal1] = useState<IUserModal1>();
+  let [userDataModal2, setUserDataModal2] = useState<IUserModal2>();
+  let [userDataModal3, setUserDataModal3] = useState<IUserModal3>();
+
+  useEffect(() => {
+    console.log();
+  });
+
   return (
     <>
       {modal === 0 ? (
-        <SignupModal1 modal={modal} setModal={setModal} />
+        <SignupModal1
+          modal={modal}
+          setModal={setModal}
+          setUserDataModal1={setUserDataModal1}
+        />
       ) : modal === 1 ? (
         <SignupModal2 modal={modal} setModal={setModal} />
       ) : modal === 2 ? (
