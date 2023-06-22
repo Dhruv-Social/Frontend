@@ -1,6 +1,7 @@
 import "./login.scss";
 
 import { FC, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import DhruvSocial4 from "../../assets/blobs/dhruv_social4.png";
 import DhruvSocial5 from "../../assets/blobs/dhruv_social5.png";
@@ -10,6 +11,8 @@ interface ILoginProps {}
 const Login: FC<ILoginProps> = ({}) => {
   let username = useRef(null);
   let password = useRef(null);
+
+  const navigate = useNavigate();
 
   let handleLogin = () => {
     let userLoginData = {
@@ -40,6 +43,7 @@ const Login: FC<ILoginProps> = ({}) => {
         }
 
         sessionStorage.setItem("token", result.accessToken);
+        navigate("/home");
       })
       .catch((error) => console.log("error", error));
   };
