@@ -1,5 +1,6 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 
+import Navbar from "../components/navbar/navbar";
 import Home from "../components/home/home";
 
 interface IHomePageProps {}
@@ -7,6 +8,7 @@ interface IHomePageProps {}
 const HomePage: FC<IHomePageProps> = ({}) => {
   return (
     <>
+      <Navbar />
       <Home />
     </>
   );

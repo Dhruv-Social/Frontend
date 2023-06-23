@@ -1,16 +1,22 @@
 import "./navbar.scss";
 
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import DhruvSocial from "../../assets/icon/dhruv_social.png";
 
-interface INavbarProps {
-  loggedIn: boolean;
-}
+interface INavbarProps {}
 
-const Navbar: FC<INavbarProps> = ({ loggedIn }) => {
-  return <>{loggedIn ? <_NavbarLoggedIn /> : <_NavbarNotLoggedIn />}</>;
+const Navbar: FC<INavbarProps> = ({}) => {
+  const [userLoggedIn, setUserLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    sessionStorage.getItem("token") === null
+      ? setUserLoggedIn(false)
+      : setUserLoggedIn(true);
+  }, [userLoggedIn]);
+
+  return <>{userLoggedIn ? <_NavbarLoggedIn /> : <_NavbarNotLoggedIn />}</>;
 };
 
 interface _INavbarLoggedIn {}
@@ -21,7 +27,7 @@ const _NavbarLoggedIn: FC<_INavbarLoggedIn> = ({}) => {
   const handleHomeButton = (
     event: React.MouseEvent<HTMLImageElement, MouseEvent>
   ) => {
-    navigate("/");
+    navigate("/home");
   };
 
   return (

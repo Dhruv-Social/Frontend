@@ -9,7 +9,7 @@ const handleLogin = (
 ) => {
   let userLoginData = {
     username: username,
-    password: username,
+    password: password,
   };
 
   var myHeaders = new Headers();
@@ -27,10 +27,11 @@ const handleLogin = (
     redirect: "follow",
   };
 
-  fetch(`${devURL}/dhruvsocial/auth/loginAuth`, requestOptions)
+  fetch("http://localhost:3000/dhruvsocial/auth/loginAuth", requestOptions)
     .then((response) => response.json())
     .then((result) => {
       if (result.success === false) {
+        console.log(result);
         return console.log("Incorrent Login");
       }
 
