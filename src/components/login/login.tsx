@@ -1,10 +1,13 @@
 import "./login.scss";
 
-import { FC, useRef } from "react";
+import { FC, useRef, use } from "react";
 import { useNavigate } from "react-router-dom";
+import { handleLogin } from "../../core/requests";
 
 import DhruvSocial4 from "../../assets/blobs/dhruv_social4.png";
 import DhruvSocial5 from "../../assets/blobs/dhruv_social5.png";
+
+import { devURL } from "../../core/requests";
 
 interface ILoginProps {}
 
@@ -13,40 +16,6 @@ const Login: FC<ILoginProps> = ({}) => {
   let password = useRef(null);
 
   const navigate = useNavigate();
-
-  let handleLogin = () => {
-    let userLoginData = {
-      username: (username.current! as any).value,
-      password: (password.current! as any).value,
-    };
-
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify({
-      username: userLoginData.username,
-      password: userLoginData.password,
-    });
-
-    var requestOptions: RequestInit = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-    fetch("http://localhost:3000/dhruvsocial/auth/loginAuth", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.success === false) {
-          return console.log("Incorrent Login");
-        }
-
-        sessionStorage.setItem("token", result.accessToken);
-        navigate("/home");
-      })
-      .catch((error) => console.log("error", error));
-  };
 
   return (
     <main className="DHS__Login">
@@ -58,7 +27,11 @@ const Login: FC<ILoginProps> = ({}) => {
       <form
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-          handleLogin();
+          handleLogin(
+            (username.current! as any).value,
+            (password.current! as any).value,
+            navigate
+          );
         }}
       >
         <div>
