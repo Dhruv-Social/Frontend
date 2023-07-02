@@ -8,7 +8,7 @@ interface ILoginPageProps {}
 const LoginPage: FC<ILoginPageProps> = ({}) => {
   return (
     <>
-      <Navbar loggedIn={false} />
+      <Navbar />
       <Login />
     </>
   );

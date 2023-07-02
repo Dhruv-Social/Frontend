@@ -8,7 +8,7 @@ interface ISignUpPageProps {}
 const SignupPage: FC<ISignUpPageProps> = ({}) => {
   return (
     <>
-      <Navbar loggedIn={false} />
+      <Navbar />
       <Signup />
     </>
   );
