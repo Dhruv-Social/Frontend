@@ -1,17 +1,31 @@
 import "./home.scss";
 
-import { FC } from "react";
+import { FC, use } from "react";
 
-import { use } from "react";
+import { devURL } from "../../core/requests";
 
 interface IHomeProps {}
 
 const Home: FC<IHomeProps> = ({}) => {
-  return (
-    <main className="DHS__Home">
-      <h2>e</h2>
-    </main>
+  const myHeaders = new Headers();
+  myHeaders.append(
+    "Authorization",
+    `Bearer ${sessionStorage.getItem("token")}`
   );
+
+  const requestOptions: RequestInit = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  const userLoginData = use(
+    fetch(`${devURL}/dhruvsocial/get/fetchSelf`, requestOptions).then(
+      (response) => response.json()
+    )
+  );
+
+  return <main className="DHS__Home">{JSON.stringify(userLoginData)}</main>;
 };
 
 export default Home;

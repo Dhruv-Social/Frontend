@@ -1,4 +1,4 @@
-import { FC, useContext } from "react";
+import { FC, Suspense, useContext } from "react";
 
 import Navbar from "../components/navbar/navbar";
 import Home from "../components/home/home";
@@ -9,7 +9,9 @@ const HomePage: FC<IHomePageProps> = ({}) => {
   return (
     <>
       <Navbar />
-      <Home />
+      <Suspense fallback={<h2>Loading...</h2>}>
+        <Home />
+      </Suspense>
     </>
   );
 };
