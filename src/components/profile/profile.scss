@@ -1,0 +1,47 @@
+// Profile
+.DHS__Profile {
+  width: 80%;
+  margin: 12vh 10% 0 10%;
+
+  padding: 1rem;
+}
+
+// Top
+.DHS__Profile__Top {
+  width: 100%;
+}
+
+// Top Images
+.DHS__Profile__Top__Images {
+  width: 100%;
+
+  position: relative;
+}
+
+.DHS__Profile__Top__Images__Banner {
+  height: 300px;
+  width: 100%;
+
+  border-radius: 3rem;
+  border: 0.5rem solid #5b2333;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.DHS__Profile__Top__Images__ProfilePicture {
+  width: 15%;
+  aspect-ratio: 1/1;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  position: absolute;
+  top: 11rem;
+  left: 3rem;
+
+  border-radius: 50%;
+  border: 0.5rem solid #5b2333;
+}
