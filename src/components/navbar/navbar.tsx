@@ -11,7 +11,7 @@ const Navbar: FC<INavbarProps> = ({}) => {
   const [userLoggedIn, setUserLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
-    sessionStorage.getItem("token") === null
+    sessionStorage.getItem("refreshToken") === null
       ? setUserLoggedIn(false)
       : setUserLoggedIn(true);
   }, [userLoggedIn]);
