@@ -1,3 +1,5 @@
+@import "../../App.scss";
+
 // Profile
 .DHS__Profile {
   width: 80%;
@@ -23,7 +25,7 @@
   width: 100%;
 
   border-radius: 3rem;
-  border: 0.5rem solid #5b2333;
+  border: 0.5rem solid $black;
 
   background-repeat: no-repeat;
   background-size: cover;
@@ -37,11 +39,125 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  background-color: $black;
 
   position: absolute;
   top: 11rem;
   left: 3rem;
 
   border-radius: 50%;
-  border: 0.5rem solid #5b2333;
+  border: 0.5rem solid $black;
+}
+
+// Bottom
+.DHS__Profile__Bottom {
+  margin-top: 6rem;
+
+  padding: 1rem;
+  width: 100%;
+}
+
+.DHS__Profile__Bottom > h2 {
+  font-size: 3rem;
+}
+
+.DHS__Profile__Bottom > p {
+  font-size: 1rem;
+
+  margin: 1rem 0;
+}
+
+.DHS__Profile__Bottom > section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+// Posts
+.DHS__Profile__Posts {
+  width: 100%;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+
+  padding: 1rem;
+}
+
+.DHS__Profile__Posts > h2 {
+  font-size: 2.5rem;
+}
+
+// Post
+.DHS__Profile__Posts__Post {
+  background-color: rgba($grey, 0.5);
+
+  width: 100%;
+
+  border-radius: 2rem;
+
+  padding: 1rem;
+}
+
+// Profile
+.DHS__Profile__Posts__Post__Profile {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.DHS__Profile__Posts__Post__Profile > div {
+  width: 4%;
+  aspect-ratio: 1/1;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: $black;
+
+  border-radius: 50%;
+  border: 0.5rem solid $black;
+}
+
+.DHS__Profile__Posts__Post__Profile > h3 {
+  margin-left: 1rem;
+}
+
+.DHS__Profile__Posts__Post__Text__Images > p {
+  font-size: 1rem;
+  margin: 1rem 2rem;
+}
+
+.DHS__Profile__Posts__Post__Text__Images > img {
+  max-width: 500px;
+
+  margin: 1rem;
+}
+
+// Reactions
+.DHS__Profile__Posts__Post__Reactions {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.DHS__Profile__Posts__Post__Reactions > div {
+  margin: 0.5rem;
+
+  font-size: 1.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.DHS__Profile__Posts__Post__Reactions > div > p {
+  margin: 0.5rem 0;
 }

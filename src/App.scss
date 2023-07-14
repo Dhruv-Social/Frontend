@@ -2,7 +2,7 @@
 
 /* Colours */
 $accent: #5b2333;
-$black: #1e1e1e;
+$black: #181818;
 $white: #f7f4f3;
 $grey: #564d4a;
 
@@ -10,7 +10,8 @@ body {
   margin: 0;
   padding: 0;
   background-color: $black;
-  overflow: hidden;
+  overflow-x: hidden;
+  color: $white;
 }
 
 * {
