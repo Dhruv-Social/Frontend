@@ -15,13 +15,16 @@ const ErrorNotification: FC<IErrorNotificationProps> = ({
 }) => {
   return (
     <span className="DHS__Error">
-      <div>
-        <FontAwesomeIcon icon={faCircleExclamation} />
-      </div>
-      <div>
-        <h3>{error}</h3>
-        <p>{description}</p>
-      </div>
+      <article className="DHS__Error__Inner">
+        <div>
+          <FontAwesomeIcon icon={faCircleExclamation} />
+        </div>
+        <div>
+          <h3>{error}</h3>
+          <p>{description}</p>
+        </div>
+        <span className="DHS__Error__Loading"></span>
+      </article>
     </span>
   );
 };

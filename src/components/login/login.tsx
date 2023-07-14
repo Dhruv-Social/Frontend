@@ -24,7 +24,7 @@ const Login: FC<ILoginProps> = ({}) => {
       {loginError ? (
         <ErrorNotification
           error="Error logging in"
-          description="The username or passowrd you provided was incorrect"
+          description="The username or password you provided was incorrect"
         />
       ) : null}
 

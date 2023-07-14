@@ -2,13 +2,6 @@
   position: absolute;
   top: 1rem;
   right: -25%;
-
-  padding: 1rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   z-index: 1;
 
   border-radius: 1rem;
@@ -18,6 +11,34 @@
 
   animation-name: SlideIn;
   animation-duration: 5s;
+  overflow: hidden;
+
+  .DHS__Error__Inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    height: 98%;
+
+    padding: 1rem;
+  }
+
+  .DHS__Error__Loading {
+    position: absolute;
+
+    width: 100%;
+    height: 5%;
+
+    bottom: 0;
+
+    background-color: white;
+    border-radius: 0 0 2rem 2rem;
+
+    animation-name: Out;
+    animation-duration: 5s;
+  }
 }
 
 // Icon
@@ -41,15 +62,26 @@
     right: -25%;
   }
   15% {
-    right: 1.2rem;
+    right: 1.5rem;
   }
   50% {
     right: 1rem;
   }
   85% {
-    right: 1.2rem;
+    right: 1.5rem;
   }
   100% {
     right: -25%;
+  }
+}
+
+@keyframes Out {
+  from {
+    width: 100%;
+    margin-right: 0%;
+  }
+  to {
+    width: 0;
+    margin-right: 100%;
   }
 }
