@@ -5,6 +5,7 @@ import { NavigateFunction } from "react-router-dom";
 const handleLogin = (
   username: string,
   password: string,
+  setLoginError: (item: boolean) => void,
   navigate: NavigateFunction
 ) => {
   let userLoginData = {
@@ -27,15 +28,16 @@ const handleLogin = (
     redirect: "follow",
   };
 
-  fetch("http://localhost:3000/dhruvsocial/auth/loginAuth", requestOptions)
+  fetch(`${devURL}/dhruvsocial/auth/loginAuth`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       if (result.success === false) {
-        console.log(result);
+        setLoginError(true);
+        setTimeout(() => setLoginError(false), 5000);
         return console.log("Incorrent Login");
       }
 
-      sessionStorage.setItem("token", result.accessToken);
+      sessionStorage.setItem("refreshToken", result.refreshToken);
       navigate("/home");
     })
     .catch((error) => console.log("error", error));
