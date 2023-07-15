@@ -6,7 +6,7 @@ import {
   getProfileData,
   getForYouPosts,
 } from "../../core/requests";
-import { __IProfilePostsPost } from "../profile/profile";
+import { __ProfilePostsPost } from "../profile/profile";
 
 interface IHomeProps {}
 
@@ -129,7 +129,7 @@ const _HomeForYouPosts: FC<_IHomeForYouPosts> = ({ posts }) => {
 
       {posts.length !== 0 ? (
         posts.map((post) => {
-          return <__IProfilePostsPost key={crypto.randomUUID()} post={post} />;
+          return <__ProfilePostsPost key={crypto.randomUUID()} post={post} />;
         })
       ) : (
         <h1>Nothing going on here</h1>

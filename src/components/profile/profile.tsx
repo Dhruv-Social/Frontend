@@ -170,7 +170,7 @@ const _ProfilePosts: FC<_IProfilePostsProps> = ({ posts }) => {
       <h2>Posts</h2>
       {posts.length !== 0 ? (
         posts.map((post) => {
-          return <__IProfilePostsPost post={post} key={crypto.randomUUID()} />;
+          return <__ProfilePostsPost post={post} key={crypto.randomUUID()} />;
         })
       ) : (
         <h1>This person has no posts AND NO BITCHES</h1>
@@ -183,7 +183,7 @@ interface __ProfilePostsPostProps {
   post: Post;
 }
 
-const __IProfilePostsPost: FC<__ProfilePostsPostProps> = ({ post }) => {
+const __ProfilePostsPost: FC<__ProfilePostsPostProps> = ({ post }) => {
   return (
     <div className="DHS__Profile__Posts__Post">
       <section className="DHS__Profile__Posts__Post__Profile">
@@ -230,5 +230,5 @@ const __IProfilePostsPost: FC<__ProfilePostsPostProps> = ({ post }) => {
   );
 };
 
-export { __IProfilePostsPost };
+export { __ProfilePostsPost };
 export default Profile;
