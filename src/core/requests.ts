@@ -112,6 +112,22 @@ const getForYouPosts = (accessToken: string) => {
     .catch((error) => console.log("error", error));
 };
 
+const getReel = (accessToken: string) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+  var requestOptions: RequestInit = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(`${devURL}/dhruvsocial/get/reels`, requestOptions)
+    .then((response) => response.blob())
+    .then((result) => result)
+    .catch((error) => console.log("error", error));
+};
+
 export {
   devURL,
   handleLogin,
@@ -119,4 +135,5 @@ export {
   getProfileData,
   getUserPosts,
   getForYouPosts,
+  getReel,
 };
