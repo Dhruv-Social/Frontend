@@ -15,6 +15,7 @@ interface Post {
   author_uuid: string;
   author_display_name: string;
   author_username: string;
+  author_profile_picture: string;
   likes: string[];
   comments: {
     commentUuid: string;
@@ -85,10 +86,7 @@ const Profile: FC<IProfileProps> = ({}) => {
             followers={profileData.followers.length}
             following={profileData.following.length}
           />
-          <_ProfilePosts
-            profilePicture={profileData.profilePicture}
-            posts={posts}
-          />
+          <_ProfilePosts posts={posts} />
         </>
       ) : (
         <h3>Loading</h3>
@@ -164,22 +162,15 @@ const _ProfileBotton: FC<_IProfileBottonProps> = ({
 
 interface _IProfilePostsProps {
   posts: Post[];
-  profilePicture: string;
 }
 
-const _ProfilePosts: FC<_IProfilePostsProps> = ({ profilePicture, posts }) => {
+const _ProfilePosts: FC<_IProfilePostsProps> = ({ posts }) => {
   return (
     <div className="DHS__Profile__Posts">
       <h2>Posts</h2>
       {posts.length !== 0 ? (
         posts.map((post) => {
-          return (
-            <__IProfilePostsPost
-              profilePicture={profilePicture}
-              post={post}
-              key={crypto.randomUUID()}
-            />
-          );
+          return <__IProfilePostsPost post={post} key={crypto.randomUUID()} />;
         })
       ) : (
         <h1>This person has no posts AND NO BITCHES</h1>
@@ -190,19 +181,17 @@ const _ProfilePosts: FC<_IProfilePostsProps> = ({ profilePicture, posts }) => {
 
 interface __ProfilePostsPostProps {
   post: Post;
-  profilePicture: string;
 }
 
-const __IProfilePostsPost: FC<__ProfilePostsPostProps> = ({
-  profilePicture,
-  post,
-}) => {
+const __IProfilePostsPost: FC<__ProfilePostsPostProps> = ({ post }) => {
   return (
     <div className="DHS__Profile__Posts__Post">
       <section className="DHS__Profile__Posts__Post__Profile">
         <div
           style={{
-            backgroundImage: `url("${"data:image/jpeg;base64,"}${profilePicture}")`,
+            backgroundImage: `url("${"data:image/jpeg;base64,"}${
+              post.author_profile_picture
+            }")`,
           }}
         ></div>
 
