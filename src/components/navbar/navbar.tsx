@@ -9,6 +9,7 @@ import {
   faMagnifyingGlass,
   faMessage,
   faFilm,
+  faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
 import DhruvSocial from "../../assets/icon/dhruv_social.png";
@@ -37,6 +38,11 @@ const _NavbarLoggedIn: FC<_INavbarLoggedIn> = ({}) => {
     event: React.MouseEvent<HTMLImageElement, MouseEvent>
   ) => {
     navigate("/home");
+  };
+
+  const logOut = () => {
+    sessionStorage.removeItem("refreshToken");
+    navigate("/");
   };
 
   return (
@@ -111,6 +117,14 @@ const _NavbarLoggedIn: FC<_INavbarLoggedIn> = ({}) => {
         </Link>
         <Link to="/">
           <FontAwesomeIcon icon={faFilm} /> Reels
+        </Link>
+        <Link
+          to="/"
+          onClick={() => {
+            logOut();
+          }}
+        >
+          <FontAwesomeIcon icon={faRightFromBracket} /> Logout
         </Link>
       </div>
     </>
