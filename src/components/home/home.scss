@@ -1,0 +1,106 @@
+@import "../../App.scss";
+
+// Home
+.DHS__Home {
+  width: 80%;
+  margin: 12vh 10% 0 10%;
+
+  padding: 1rem;
+
+  hr {
+    margin: 5rem 0;
+  }
+}
+
+// Create Post
+.DHS__Home__CreatePost {
+  background-color: rgba($grey, 0.5);
+
+  width: 100%;
+
+  border-radius: 2rem;
+
+  padding: 1rem;
+
+  // User Data
+  .DHS__Home__CreatePost__UserData {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    .DHS__Home__CreatePost__UserData__Image {
+      width: 4%;
+      aspect-ratio: 1/1;
+
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      background-color: $black;
+
+      border-radius: 50%;
+      border: 0.5rem solid $black;
+    }
+
+    .DHS__Home__CreatePost__UserData__DispayName {
+      margin-left: 1rem;
+    }
+  }
+
+  // Input
+  .DHS__Home__CreatePost__Input {
+    width: calc(100% - 2rem);
+
+    margin: 1rem;
+
+    input {
+      padding: 0.5rem 1rem;
+
+      width: 100%;
+
+      font-size: 1.2rem;
+      font-family: inherit;
+
+      background-color: $grey;
+      color: $white;
+
+      border: none;
+      border-bottom: $black 0.2rem solid;
+      border-radius: 1rem;
+    }
+
+    input::placeholder {
+      color: $white;
+    }
+  }
+
+  .DHS__Home__CreatePost__FileInput {
+    input[type="file"]::file-selector-button {
+      margin-right: 20px;
+      padding: 10px 20px;
+
+      border: none;
+      border-radius: 10px;
+
+      background-color: $grey;
+      color: #fff;
+
+      cursor: pointer;
+
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    input[type="file"]::file-selector-button:hover {
+      background-color: rgba($grey, 0.5);
+    }
+  }
+}
+
+// Posts
+.DHS__Home__ForYou {
+  h2 {
+    font-size: 3rem;
+    margin: 1rem 0;
+  }
+}

@@ -96,4 +96,27 @@ const getUserPosts = (accessToken: string) => {
     .catch((error) => console.log("error", error));
 };
 
-export { devURL, handleLogin, getAccessToken, getProfileData, getUserPosts };
+const getForYouPosts = (accessToken: string) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+  var requestOptions: RequestInit = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(`${devURL}/dhruvsocial/get/forYouPosts`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => console.log("error", error));
+};
+
+export {
+  devURL,
+  handleLogin,
+  getAccessToken,
+  getProfileData,
+  getUserPosts,
+  getForYouPosts,
+};

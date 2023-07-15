@@ -230,4 +230,5 @@ const __IProfilePostsPost: FC<__ProfilePostsPostProps> = ({ post }) => {
   );
 };
 
+export { __IProfilePostsPost };
 export default Profile;
