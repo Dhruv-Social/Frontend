@@ -28,7 +28,7 @@ const Search: FC<ISearchProps> = ({}) => {
         setUsers(users);
       });
     });
-  });
+  }, [currentSearch]);
 
   return (
     <main className="DHS__Search">
@@ -84,7 +84,15 @@ const __SearchUsersUser: FC<__ISearchUsersUserProps> = ({ user }) => {
   let navigate = useNavigate();
 
   return (
-    <div className="DHS__Search__Users__User">
+    <div
+      className="DHS__Search__Users__User"
+      onClick={(e) => {
+        navigate({
+          pathname: "/profile/other",
+          search: `?uuid=${user.uuid}`,
+        });
+      }}
+    >
       <div
         className="DHS__Search__Users__User__ProfilePicture"
         style={{
@@ -93,17 +101,7 @@ const __SearchUsersUser: FC<__ISearchUsersUserProps> = ({ user }) => {
           }")`,
         }}
       ></div>
-      <div
-        className="DHS__Search__Users__User__Name"
-        onClick={() => {
-          navigate({
-            pathname: "/profile/other",
-            search: `?uuid=${user.uuid}`,
-          });
-        }}
-      >
-        {user.displayName}
-      </div>
+      <div className="DHS__Search__Users__User__Name">{user.displayName}</div>
       <button className="DHS__Search__Users__User__Follow">Follow</button>
     </div>
   );
