@@ -1,0 +1,102 @@
+@import "../../App.scss";
+
+.DHS__Search {
+  width: 80%;
+  margin: 12vh 10% 0 10%;
+
+  padding: 1rem;
+}
+
+// Search
+.DHS__Search__Search {
+  width: 100%;
+
+  input {
+    width: calc(80% - 4rem);
+    margin: 0 10% 0 calc(10% + 4rem);
+
+    padding: 1rem;
+
+    background-color: $accent;
+
+    border: none;
+    border-radius: 2rem;
+
+    color: $white;
+
+    position: relative;
+  }
+
+  .DHS__Search__Search__Icon {
+    margin: 0 10%;
+    padding: 1rem;
+
+    position: relative;
+    top: 3.3rem;
+    font-size: 1.3rem;
+
+    background-color: $accent;
+
+    border-radius: 50%;
+  }
+
+  input::placeholder {
+    color: $white;
+
+    font-family: inherit;
+  }
+}
+
+// Users
+.DHS__Search__Users {
+  width: 100%;
+
+  .DHS__Search__Users__User {
+    width: 60%;
+
+    margin: 1rem 20%;
+    padding: 0 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-top: solid $grey 0.1rem;
+    border-bottom: solid $grey 0.1rem;
+
+    .DHS__Search__Users__User__ProfilePicture {
+      width: 10%;
+      aspect-ratio: 1/1;
+
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      background-color: $black;
+
+      border-radius: 50%;
+      border: 0.5rem solid $black;
+
+      margin-right: 1rem;
+    }
+
+    .DHS__Search__Users__User__Name {
+      margin-right: auto;
+
+      font-weight: bold;
+    }
+
+    .DHS__Search__Users__User__Follow {
+      padding: 0.5rem 1rem;
+
+      font-family: inherit;
+
+      border-radius: 0.5rem;
+      border: none;
+
+      background-color: $accent;
+      color: $white;
+
+      cursor: pointer;
+    }
+  }
+}

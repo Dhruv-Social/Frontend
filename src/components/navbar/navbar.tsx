@@ -109,7 +109,7 @@ const _NavbarLoggedIn: FC<_INavbarLoggedIn> = ({}) => {
         <Link to="/profile">
           <FontAwesomeIcon icon={faUser} /> Profile
         </Link>
-        <Link to="/">
+        <Link to="/search">
           <FontAwesomeIcon icon={faMagnifyingGlass} /> Search
         </Link>
         <Link to="/">

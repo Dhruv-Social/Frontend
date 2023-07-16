@@ -128,6 +128,25 @@ const getReel = (accessToken: string) => {
     .catch((error) => console.log("error", error));
 };
 
+const searchUsers = (accessToken: string, search: string) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+  var requestOptions: RequestInit = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(
+    `${devURL}/dhruvsocial/get/searchUser?user=${search}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => console.log("error", error));
+};
+
 export {
   devURL,
   handleLogin,
@@ -136,4 +155,5 @@ export {
   getUserPosts,
   getForYouPosts,
   getReel,
+  searchUsers,
 };
