@@ -1,0 +1,16 @@
+@import "../../App.scss";
+
+.DHS__Profile__Bottom {
+  button {
+    padding: 1rem 2rem;
+    margin: 1rem 0;
+
+    background-color: $accent;
+    color: $white;
+
+    border: none;
+    border-radius: 1rem;
+
+    font-size: 1.3rem;
+  }
+}

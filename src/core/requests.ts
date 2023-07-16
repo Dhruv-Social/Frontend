@@ -147,6 +147,63 @@ const searchUsers = (accessToken: string, search: string) => {
     .catch((error) => console.log("error", error));
 };
 
+const getOtherUser = (accessToken: string, uuid: string) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+  var requestOptions: RequestInit = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(
+    `${devURL}/dhruvsocial/get/fetchOther?uuid=${uuid}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => console.log("error", error));
+};
+
+const getIfFollowing = (accessToken: string, uuid: string) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+  var requestOptions: RequestInit = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(
+    `${devURL}/dhruvsocial/get/fetchIfFollowing?ifFollowingUuid=${uuid}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => console.log("error", error));
+};
+
+const getOtherUserPosts = (accessToken: string, uuid: string) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+  var requestOptions: RequestInit = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(
+    `${devURL}/dhruvsocial/get/fetchOtherPosts?uuid=${uuid}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => console.log("error", error));
+};
+
 export {
   devURL,
   handleLogin,
@@ -156,4 +213,7 @@ export {
   getForYouPosts,
   getReel,
   searchUsers,
+  getOtherUser,
+  getIfFollowing,
+  getOtherUserPosts,
 };
