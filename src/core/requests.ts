@@ -204,6 +204,44 @@ const getOtherUserPosts = (accessToken: string, uuid: string) => {
     .catch((error) => console.log("error", error));
 };
 
+const followUserEndpoint = (accessToken: string, uuid: string) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+  var requestOptions: RequestInit = {
+    method: "PUT",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(
+    `${devURL}/dhruvsocial/put/followUser?uuidToFollow=${uuid}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => console.log("error", error));
+};
+
+const unFollowUserEndpoint = (accessToken: string, uuid: string) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+  var requestOptions: RequestInit = {
+    method: "PUT",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(
+    `${devURL}/dhruvsocial/put/unfollowUser?uuidToUnfollow=${uuid}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => console.log("error", error));
+};
+
 export {
   devURL,
   handleLogin,
@@ -216,4 +254,6 @@ export {
   getOtherUser,
   getIfFollowing,
   getOtherUserPosts,
+  followUserEndpoint,
+  unFollowUserEndpoint,
 };

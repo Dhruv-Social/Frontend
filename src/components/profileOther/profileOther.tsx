@@ -6,10 +6,16 @@ import {
   getOtherUser,
   getIfFollowing,
   getOtherUserPosts,
+  followUserEndpoint,
+  unFollowUserEndpoint,
 } from "../../core/requests";
 import { useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHeart,
+  faComment,
+  faChainSlash,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface Post {
   post_uuid: string;
@@ -29,6 +35,7 @@ interface Post {
 }
 
 interface User {
+  uuid: string;
   username: string;
   display_name: string;
   description: string;
@@ -75,20 +82,19 @@ const ProfileOther: FC<IProfileOtherProps> = ({}) => {
 
   return (
     <main className="DHS__Profile">
-      {profileData !== null && isFollowing !== null && posts !== null ? (
+      {profileData !== null &&
+      isFollowing !== null &&
+      posts !== null &&
+      refreshToken !== null ? (
         <>
           <_ProfileOtherTop
             profilePicture={profileData.profilePicture}
             banner={profileData.banner}
           />
           <_ProfileOtherBotton
-            displayName={profileData.display_name}
-            username={profileData.username}
-            description={profileData.description}
-            location={profileData.location}
-            followers={profileData.followers.length}
-            following={profileData.following.length}
+            uuid={profileData.uuid}
             isFollowing={isFollowing}
+            refreshToken={refreshToken}
           />
           <_ProfileOtherPosts posts={posts} />
         </>
@@ -129,44 +135,96 @@ const _ProfileOtherTop: FC<_IProfileOtherTopTopProps> = ({
 };
 
 interface _IProfileOtherBottonProps {
-  displayName: string;
-  username: string;
-  description: string;
-  location: string;
-  followers: number;
-  following: number;
+  uuid: string;
   isFollowing: boolean;
+  refreshToken: string;
 }
 
 const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
-  displayName,
-  username,
-  description,
-  location,
-  followers,
-  following,
+  uuid,
   isFollowing,
+  refreshToken,
 }) => {
+  let [buttonClicked, setButtonClicked] = useState<boolean>(isFollowing);
+
+  let [userData, setUserData] = useState<User | null>(null);
+
+  useEffect(() => {
+    getAccessToken(refreshToken).then((token) => {
+      getOtherUser(token, uuid).then((userData) => {
+        setUserData(userData);
+      });
+    });
+  }, [buttonClicked]);
+
+  const followUser = () => {
+    getAccessToken(refreshToken).then((token) => {
+      followUserEndpoint(token, uuid).then((returnEndpoint) => {
+        if (!returnEndpoint.success) {
+          return alert("Oopsie daisy, try again later");
+        }
+
+        alert("Success!");
+        setButtonClicked(!buttonClicked);
+      });
+    });
+  };
+
+  const unFollowUser = () => {
+    getAccessToken(refreshToken).then((token) => {
+      unFollowUserEndpoint(token, uuid).then((returnEndpoint) => {
+        if (!returnEndpoint.success) {
+          return alert("Oopsie daisy, try again later");
+        }
+
+        alert("Success!");
+        setButtonClicked(!buttonClicked);
+      });
+    });
+  };
+
   return (
-    <div className="DHS__Profile__Bottom">
-      <h2>{displayName}</h2>
-      <h3>@{username}</h3>
-      <p>
-        <strong>Description:</strong> {description}
-      </p>
-      <p>
-        <strong>Location:</strong> {location}
-      </p>
-      <section>
-        <p>
-          <strong>Following: </strong> {following}
-        </p>
-        <p>
-          <strong>Followers: </strong> {followers}
-        </p>
-      </section>
-      {isFollowing ? <button>Unfollow</button> : <button>Follow</button>}
-    </div>
+    <>
+      {userData !== null ? (
+        <div className="DHS__Profile__Bottom">
+          <h2>{userData.username}</h2>
+          <h3>@{userData.username}</h3>
+          <p>
+            <strong>Description:</strong> {userData.description}
+          </p>
+          <p>
+            <strong>Location:</strong> {userData.location}
+          </p>
+          <section>
+            <p>
+              <strong>Following: </strong> {userData.following.length}
+            </p>
+            <p>
+              <strong>Followers: </strong> {userData.followers.length}
+            </p>
+          </section>
+          {buttonClicked ? (
+            <button
+              onClick={() => {
+                unFollowUser();
+              }}
+            >
+              Unfollow
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                followUser();
+              }}
+            >
+              Follow
+            </button>
+          )}
+        </div>
+      ) : (
+        <h2>Loading</h2>
+      )}
+    </>
   );
 };
 
