@@ -87,20 +87,6 @@ interface __ISearchUsersUserProps {
 const __SearchUsersUser: FC<__ISearchUsersUserProps> = ({ user }) => {
   let navigate = useNavigate();
 
-  let refreshToken = sessionStorage.getItem("refreshToken");
-
-  let [doIFollow, setDoIFollow] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    if (refreshToken === null) return alert("bruh");
-
-    getAccessToken(refreshToken).then((token) => {
-      getIfFollowing(token, user.uuid).then((isFollowingJson) => {
-        setDoIFollow(isFollowingJson.detail);
-      });
-    });
-  });
-
   return (
     <div
       className="DHS__Search__Users__User"
@@ -120,11 +106,6 @@ const __SearchUsersUser: FC<__ISearchUsersUserProps> = ({ user }) => {
         }}
       ></div>
       <div className="DHS__Search__Users__User__Name">{user.displayName}</div>
-      {doIFollow ? (
-        <button className="DHS__Search__Users__User__Follow">Unfollow</button>
-      ) : (
-        <button className="DHS__Search__Users__User__Follow">Follow</button>
-      )}
     </div>
   );
 };
