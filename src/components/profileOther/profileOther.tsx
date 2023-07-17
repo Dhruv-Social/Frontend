@@ -53,6 +53,7 @@ const ProfileOther: FC<IProfileOtherProps> = ({}) => {
   let refreshToken = sessionStorage.getItem("refreshToken");
 
   const [searchParams] = useSearchParams();
+  let userUUID = searchParams.get("uuid");
 
   let [profileData, setProfileData] = useState<User | null>(null);
   let [posts, setPosts] = useState<Post[] | null>(null);
@@ -61,24 +62,20 @@ const ProfileOther: FC<IProfileOtherProps> = ({}) => {
   useEffect(() => {
     if (refreshToken === null) return alert("bruh");
 
-    if (profileData === null || posts === null) {
-      getAccessToken(refreshToken).then((token) => {
-        let userUUID = searchParams.get("uuid");
+    getAccessToken(refreshToken).then((token) => {
+      if (userUUID === null) return alert("bruh");
 
-        if (userUUID === null) return alert("bruh");
-
-        getOtherUser(token, userUUID).then((userData) => {
-          setProfileData(userData);
-        });
-        getIfFollowing(token, userUUID).then((isFollowingJson) => {
-          setIsFollowing(isFollowingJson.detail);
-        });
-        getOtherUserPosts(token, userUUID).then((posts) => {
-          setPosts(posts);
-        });
+      getOtherUser(token, userUUID).then((userData) => {
+        setProfileData(userData);
       });
-    }
-  });
+      getIfFollowing(token, userUUID).then((isFollowingJson) => {
+        setIsFollowing(isFollowingJson.detail);
+      });
+      getOtherUserPosts(token, userUUID).then((posts) => {
+        setPosts(posts);
+      });
+    });
+  }, []);
 
   return (
     <main className="DHS__Profile">

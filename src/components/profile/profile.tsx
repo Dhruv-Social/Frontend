@@ -58,17 +58,15 @@ const Profile: FC<IProfileProps> = ({}) => {
   useEffect(() => {
     if (refreshToken === null) return alert("bruh");
 
-    if (profileData === null || posts === null) {
-      getAccessToken(refreshToken).then((token) => {
-        getProfileData(token).then((profileData) => {
-          setProfileData(profileData);
-        });
-        getUserPosts(token).then((posts) => {
-          setPosts(posts);
-        });
+    getAccessToken(refreshToken).then((token) => {
+      getProfileData(token).then((profileData) => {
+        setProfileData(profileData);
       });
-    }
-  });
+      getUserPosts(token).then((posts) => {
+        setPosts(posts);
+      });
+    });
+  }, []);
 
   return (
     <main className="DHS__Profile">
@@ -217,7 +215,12 @@ const __ProfilePostsPost: FC<__ProfilePostsPostProps> = ({ post }) => {
       </section>
 
       <section className="DHS__Profile__Posts__Post__Reactions">
-        <div className="DHS__Profile__Posts__Post__Reactions__Likes">
+        <div
+          className="DHS__Profile__Posts__Post__Reactions__Likes"
+          onClick={() => {
+            console.log(post.author_uuid);
+          }}
+        >
           <FontAwesomeIcon icon={faHeart} />
           <p>{`${post.likes.length}`}</p>
         </div>
