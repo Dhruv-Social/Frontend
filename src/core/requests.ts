@@ -242,6 +242,63 @@ const unFollowUserEndpoint = (accessToken: string, uuid: string) => {
     .catch((error) => console.log("error", error));
 };
 
+const fetchIfLikedPost = (accessToken: string, postUuid: string) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+  var requestOptions: RequestInit = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(
+    `${devURL}/dhruvsocial/get/fetchIfPostLiked?postUuid=${postUuid}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => console.log("error", error));
+};
+
+const likePostEndpoint = (accessToken: string, postUuid: string) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+  var requestOptions: RequestInit = {
+    method: "PUT",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(
+    `${devURL}/dhruvsocial/put/likePost?postUuid=${postUuid}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => console.log("error", error));
+};
+
+const unLikePostEndpoint = (accessToken: string, postUuid: string) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+  var requestOptions: RequestInit = {
+    method: "PUT",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(
+    `${devURL}/dhruvsocial/get/unlikePost?postUuid=${postUuid}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => console.log("error", error));
+};
+
 export {
   devURL,
   handleLogin,
@@ -256,4 +313,7 @@ export {
   getOtherUserPosts,
   followUserEndpoint,
   unFollowUserEndpoint,
+  fetchIfLikedPost,
+  likePostEndpoint,
+  unLikePostEndpoint,
 };

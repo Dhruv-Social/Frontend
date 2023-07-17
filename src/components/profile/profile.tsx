@@ -215,12 +215,7 @@ const __ProfilePostsPost: FC<__ProfilePostsPostProps> = ({ post }) => {
       </section>
 
       <section className="DHS__Profile__Posts__Post__Reactions">
-        <div
-          className="DHS__Profile__Posts__Post__Reactions__Likes"
-          onClick={() => {
-            console.log(post.author_uuid);
-          }}
-        >
+        <div className="DHS__Profile__Posts__Post__Reactions__Likes">
           <FontAwesomeIcon icon={faHeart} />
           <p>{`${post.likes.length}`}</p>
         </div>

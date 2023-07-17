@@ -8,8 +8,11 @@ import {
   getOtherUserPosts,
   followUserEndpoint,
   unFollowUserEndpoint,
+  fetchIfLikedPost,
+  likePostEndpoint,
+  unLikePostEndpoint,
 } from "../../core/requests";
-import { useSearchParams } from "react-router-dom";
+import { json, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
@@ -253,6 +256,56 @@ interface __IProfileOtherPostsPostProps {
 const __ProfileOtherPostsPost: FC<__IProfileOtherPostsPostProps> = ({
   post,
 }) => {
+  let [haveILikedPost, setHaveILikedPost] = useState<boolean>(false);
+  let refreshToken = sessionStorage.getItem("refreshToken");
+
+  useEffect(() => {
+    if (refreshToken === null) {
+      return alert("Bruh");
+    }
+
+    getAccessToken(refreshToken).then((token) => {
+      fetchIfLikedPost(token, post.post_uuid).then((jsonData) => {
+        setHaveILikedPost(jsonData.success);
+      });
+    });
+  }, [haveILikedPost]);
+
+  const likePost = () => {
+    if (refreshToken === null) {
+      return alert("bruh");
+    }
+
+    getAccessToken(refreshToken).then((token) => {
+      likePostEndpoint(token, post.post_uuid).then((jsonReturn) => {
+        if (!jsonReturn.success) {
+          return alert("Oopsie daisy, try again later");
+        }
+
+        setHaveILikedPost((like) => !like);
+        return alert("Success");
+      });
+    });
+  };
+
+  const unLikePost = () => {
+    if (refreshToken === null) {
+      return alert("bruh");
+    }
+
+    getAccessToken(refreshToken).then((token) => {
+      unLikePostEndpoint(token, post.post_uuid).then((jsonReturn) => {
+        if (!jsonReturn.success) {
+          console.log(jsonReturn);
+          return alert("Oopsie daisy, try again later");
+        }
+
+        setHaveILikedPost((like) => !like);
+        return alert("Success");
+      });
+    });
+  };
+
   return (
     <div className="DHS__Profile__Posts__Post">
       <section className="DHS__Profile__Posts__Post__Profile">
@@ -287,7 +340,20 @@ const __ProfileOtherPostsPost: FC<__IProfileOtherPostsPostProps> = ({
 
       <section className="DHS__Profile__Posts__Post__Reactions">
         <div className="DHS__Profile__Posts__Post__Reactions__Likes">
-          <FontAwesomeIcon icon={faHeart} />
+          <FontAwesomeIcon
+            icon={faHeart}
+            style={haveILikedPost ? { color: "red" } : { color: "white" }}
+            onClick={() => {
+              if (haveILikedPost) {
+                unLikePost();
+                setHaveILikedPost((like) => !like);
+                return;
+              }
+
+              likePost();
+              setHaveILikedPost((like) => !like);
+            }}
+          />
           <p>{`${post.likes.length}`}</p>
         </div>
         <div>
