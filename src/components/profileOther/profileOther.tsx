@@ -12,13 +12,14 @@ import {
   likePostEndpoint,
   unLikePostEndpoint,
 } from "../../core/requests";
-import { json, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
   faComment,
   faChainSlash,
 } from "@fortawesome/free-solid-svg-icons";
+import Sound from "../../assets/pip.mp3";
 
 interface Post {
   post_uuid: string;
@@ -149,6 +150,10 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
 
   let [userData, setUserData] = useState<User | null>(null);
 
+  let playAudio = () => {
+    new Audio(Sound).play();
+  };
+
   useEffect(() => {
     getAccessToken(refreshToken).then((token) => {
       getOtherUser(token, uuid).then((userData) => {
@@ -164,7 +169,6 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
           return alert("Oopsie daisy, try again later");
         }
 
-        alert("Success!");
         setButtonClicked(!buttonClicked);
       });
     });
@@ -177,7 +181,6 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
           return alert("Oopsie daisy, try again later");
         }
 
-        alert("Success!");
         setButtonClicked(!buttonClicked);
       });
     });
@@ -206,6 +209,7 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
           {buttonClicked ? (
             <button
               onClick={() => {
+                playAudio();
                 unFollowUser();
               }}
             >
@@ -214,6 +218,7 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
           ) : (
             <button
               onClick={() => {
+                playAudio();
                 followUser();
               }}
             >
@@ -243,7 +248,7 @@ const _ProfileOtherPosts: FC<_IProfileOtherPostsProps> = ({ posts }) => {
           );
         })
       ) : (
-        <h1>This person has no posts AND NO BITCHES</h1>
+        <h1>This person has no posts</h1>
       )}
     </div>
   );
