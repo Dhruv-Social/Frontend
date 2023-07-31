@@ -2,7 +2,7 @@ import "./home.scss";
 
 import { FC, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { TokenContext } from "../../pages/home";
+import { TokenContext } from "../../App";
 import {
   getAccessToken,
   getProfileData,
