@@ -24,8 +24,6 @@ const SignupModal1: FC<ISignUpModal1Props> = ({ modal, setModal }) => {
   let lastname = useRef(null);
 
   let handleFormSubmit = () => {
-    console.log((username.current! as any).value);
-
     let userSignupData = {
       username: (username.current! as any).value,
       displayName: (displayName.current! as any).value,

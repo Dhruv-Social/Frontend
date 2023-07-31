@@ -22,9 +22,15 @@
     border: none;
     border-radius: 2rem;
 
-    color: $white;
+    color: $black;
+
+    font-family: inherit;
 
     position: relative;
+  }
+
+  input::placeholder {
+    color: $black;
   }
 
   .DHS__Search__Search__Icon {

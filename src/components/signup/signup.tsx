@@ -34,10 +34,6 @@ const Signup: FC<ISignUpProps> = ({}) => {
   let [userDataModal2, setUserDataModal2] = useState<IUserModal2>();
   let [userDataModal3, setUserDataModal3] = useState<IUserModal3>();
 
-  useEffect(() => {
-    console.log();
-  });
-
   return (
     <>
       {modal === 0 ? (

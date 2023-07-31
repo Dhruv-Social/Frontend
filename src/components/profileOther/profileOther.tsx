@@ -301,7 +301,6 @@ const __ProfileOtherPostsPost: FC<__IProfileOtherPostsPostProps> = ({
     getAccessToken(refreshToken).then((token) => {
       unLikePostEndpoint(token, post.post_uuid).then((jsonReturn) => {
         if (!jsonReturn.success) {
-          console.log(jsonReturn);
           return alert("Oopsie daisy, try again later");
         }
 

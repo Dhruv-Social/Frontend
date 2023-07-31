@@ -1,6 +1,8 @@
 import "./home.scss";
 
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { TokenContext } from "../../pages/home";
 import {
   getAccessToken,
   getProfileData,
@@ -48,25 +50,26 @@ interface Post {
 }
 
 const Home: FC<IHomeProps> = ({}) => {
-  let refreshToken = sessionStorage.getItem("refreshToken");
+  const refreshToken = useContext(TokenContext);
+  let navigate = useNavigate();
 
   let [profileData, setProfileData] = useState<User | null>(null);
   let [forYouPosts, setForYouPosts] = useState<Post[] | null>(null);
 
   useEffect(() => {
-    if (refreshToken === null) return alert("bruh");
-
-    if (profileData === null) {
-      getAccessToken(refreshToken).then((token) => {
-        getProfileData(token).then((profileData) => {
-          setProfileData(profileData);
-        });
-        getForYouPosts(token).then((forYouPosts) => {
-          setForYouPosts(forYouPosts);
-        });
-      });
+    if (refreshToken === null) {
+      return navigate("/");
     }
-  });
+
+    getAccessToken(refreshToken).then((token) => {
+      getProfileData(token).then((profileData) => {
+        setProfileData(profileData);
+      });
+      getForYouPosts(token).then((forYouPosts) => {
+        setForYouPosts(forYouPosts);
+      });
+    });
+  }, []);
 
   return (
     <main className="DHS__Home">
@@ -109,7 +112,7 @@ const _HomeCreatePost: FC<_IHomeCreatePost> = ({
         </h3>
       </div>
       <div className="DHS__Home__CreatePost__Input">
-        <input type="text" placeholder="Say Something Awsome..." />
+        <input type="text" placeholder="Say Something Awesome..." />
       </div>
       <div className="DHS__Home__CreatePost__FileInput">
         <input type="file" accept="image/*" multiple={true} />
