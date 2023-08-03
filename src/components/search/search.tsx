@@ -1,6 +1,6 @@
 import "./search.scss";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useContext } from "react";
 import {
   getAccessToken,
   searchUsers,
@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { TokenContext } from "../../App";
 
 interface ISearchProps {}
 
@@ -19,13 +20,16 @@ interface IUsers {
 }
 
 const Search: FC<ISearchProps> = ({}) => {
-  let refreshToken = sessionStorage.getItem("refreshToken");
+  const refreshToken = useContext(TokenContext);
+  let navigate = useNavigate();
 
   let [users, setUsers] = useState<IUsers[] | null>(null);
   let [currentSearch, setCurrentSearch] = useState<string>("");
 
   useEffect(() => {
-    if (refreshToken === null) return alert("bruh");
+    if (refreshToken === null) {
+      return navigate("/");
+    }
 
     getAccessToken(refreshToken).then((token) => {
       searchUsers(token, currentSearch).then((users) => {
@@ -73,7 +77,7 @@ const _SearchUsers: FC<_ISearchUsersProps> = ({ users, setCurrentSearch }) => {
             return <__SearchUsersUser key={crypto.randomUUID()} user={user} />;
           })
         ) : (
-          <h1>No users match tha username</h1>
+          <h1>No users match that username</h1>
         )}
       </div>
     </>

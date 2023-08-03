@@ -1,6 +1,6 @@
 import "./navbar.scss";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +11,7 @@ import {
   faFilm,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
+import { TokenContext } from "../../App";
 
 import DhruvSocial from "../../assets/icon/dhruv_social.png";
 
@@ -18,11 +19,10 @@ interface INavbarProps {}
 
 const Navbar: FC<INavbarProps> = ({}) => {
   const [userLoggedIn, setUserLoggedIn] = useState<boolean>(false);
+  const refreshToken = useContext(TokenContext);
 
   useEffect(() => {
-    sessionStorage.getItem("refreshToken") === null
-      ? setUserLoggedIn(false)
-      : setUserLoggedIn(true);
+    refreshToken !== null ? setUserLoggedIn(true) : setUserLoggedIn(false);
   }, [userLoggedIn]);
 
   return <>{userLoggedIn ? <_NavbarLoggedIn /> : <_NavbarNotLoggedIn />}</>;
