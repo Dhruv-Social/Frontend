@@ -11,15 +11,14 @@ import {
   faFilm,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import { TokenContext } from "../../App";
 
 import DhruvSocial from "../../assets/icon/dhruv_social.png";
 
 interface INavbarProps {}
 
 const Navbar: FC<INavbarProps> = ({}) => {
+  const refreshToken = sessionStorage.getItem("refreshToken");
   const [userLoggedIn, setUserLoggedIn] = useState<boolean>(false);
-  const refreshToken = useContext(TokenContext);
 
   useEffect(() => {
     refreshToken !== null ? setUserLoggedIn(true) : setUserLoggedIn(false);

@@ -2,7 +2,6 @@ import "./home.scss";
 
 import { FC, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { TokenContext } from "../../App";
 import {
   getAccessToken,
   getProfileData,
@@ -50,7 +49,7 @@ interface Post {
 }
 
 const Home: FC<IHomeProps> = ({}) => {
-  const refreshToken = useContext(TokenContext);
+  const refreshToken = sessionStorage.getItem("refreshToken");
   let navigate = useNavigate();
 
   let [profileData, setProfileData] = useState<User | null>(null);

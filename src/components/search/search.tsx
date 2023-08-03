@@ -9,7 +9,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { TokenContext } from "../../App";
 
 interface ISearchProps {}
 
@@ -20,7 +19,7 @@ interface IUsers {
 }
 
 const Search: FC<ISearchProps> = ({}) => {
-  const refreshToken = useContext(TokenContext);
+  const refreshToken = sessionStorage.getItem("refreshToken");
   let navigate = useNavigate();
 
   let [users, setUsers] = useState<IUsers[] | null>(null);

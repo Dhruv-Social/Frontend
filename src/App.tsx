@@ -11,22 +11,18 @@ import ReelsPage from "./pages/reels";
 import SearchPage from "./pages/search";
 import ProfileOtherPage from "./pages/profileOther";
 
-export const TokenContext = createContext<string | null>(null);
-
 function App() {
   return (
-    <TokenContext.Provider value={sessionStorage.getItem("refreshToken")}>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/reels" element={<ReelsPage />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/profile/other" element={<ProfileOtherPage />} />
-      </Routes>
-    </TokenContext.Provider>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/home" element={<HomePage />} />
+      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/reels" element={<ReelsPage />} />
+      <Route path="/search" element={<SearchPage />} />
+      <Route path="/profile/other" element={<ProfileOtherPage />} />
+    </Routes>
   );
 }
 
