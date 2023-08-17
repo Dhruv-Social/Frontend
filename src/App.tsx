@@ -1,6 +1,5 @@
 import "./App.scss";
 import { Route, Routes } from "react-router-dom";
-import { createContext } from "react";
 
 import LandingPage from "./pages/landing";
 import LoginPage from "./pages/login";
@@ -10,6 +9,7 @@ import ProfilePage from "./pages/profile";
 import ReelsPage from "./pages/reels";
 import SearchPage from "./pages/search";
 import ProfileOtherPage from "./pages/profileOther";
+import MessagesPage from "./pages/messages";
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
       <Route path="/reels" element={<ReelsPage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/profile/other" element={<ProfileOtherPage />} />
+      <Route path="/messages" element={<MessagesPage />} />
     </Routes>
   );
 }

@@ -1,0 +1,13 @@
+@import "../../App.scss";
+
+.DHS__Message {
+  width: 80%;
+  margin: 12vh 10% 0 10%;
+
+  padding: 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

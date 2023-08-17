@@ -2,12 +2,7 @@ import "./signup.scss";
 
 import { FC, useEffect, useState } from "react";
 
-import {
-  IUser,
-  IUserModal1,
-  IUserModal2,
-  IUserModal3,
-} from "./signupInterface";
+import { IUser } from "./signupInterface";
 
 // Modals
 import SignupModal1 from "./modals/modal1/modal1";
@@ -29,10 +24,13 @@ const Signup: FC<ISignUpProps> = ({}) => {
     password: null,
   });
 
-  // User Data
-  let [userDataModal1, setUserDataModal1] = useState<IUserModal1>();
-  let [userDataModal2, setUserDataModal2] = useState<IUserModal2>();
-  let [userDataModal3, setUserDataModal3] = useState<IUserModal3>();
+  let [submitData, setSubmitData] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (submitData) {
+      alert("apicy");
+    }
+  }, [submitData]);
 
   return (
     <>
@@ -40,14 +38,29 @@ const Signup: FC<ISignUpProps> = ({}) => {
         <SignupModal1
           modal={modal}
           setModal={setModal}
-          setUserDataModal1={setUserDataModal1}
+          userData={userData}
+          setUserData={setUserData}
         />
       ) : modal === 1 ? (
-        <SignupModal2 modal={modal} setModal={setModal} />
+        <SignupModal2
+          modal={modal}
+          setModal={setModal}
+          userData={userData}
+          setUserData={setUserData}
+        />
       ) : modal === 2 ? (
-        <SignupModal3 modal={modal} setModal={setModal} />
+        <SignupModal3
+          modal={modal}
+          setModal={setModal}
+          userData={userData}
+          setUserData={setUserData}
+        />
       ) : (
-        <SignupModal4 modal={modal} setModal={setModal} />
+        <SignupModal4
+          modal={modal}
+          setModal={setModal}
+          setSubmitData={setSubmitData}
+        />
       )}
 
       <div className="DHS__Signup__Circles">

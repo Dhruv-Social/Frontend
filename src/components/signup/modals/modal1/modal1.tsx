@@ -1,20 +1,26 @@
 import "./modal1.scss";
 
-import { FC, useState, useRef } from "react";
+import { FC, useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import DhruvSocial3 from "../../../../assets/blobs/dhruv_social3.png";
 import DhruvSocial6 from "../../../../assets/blobs/dhruv_social6.png";
 
-import { IUserModal1 } from "../../signupInterface";
+import { IUser } from "../../signupInterface";
 
 interface ISignUpModal1Props {
   modal: number;
   setModal: (modal: number) => void;
-  setUserDataModal1: (modal: IUserModal1) => void;
+  userData: IUser;
+  setUserData: (modal: IUser) => void;
 }
 
-const SignupModal1: FC<ISignUpModal1Props> = ({ modal, setModal }) => {
+const SignupModal1: FC<ISignUpModal1Props> = ({
+  modal,
+  setModal,
+  userData,
+  setUserData,
+}) => {
   const navigate = useNavigate();
 
   // Data from the form
@@ -23,6 +29,13 @@ const SignupModal1: FC<ISignUpModal1Props> = ({ modal, setModal }) => {
   let firstname = useRef(null);
   let lastname = useRef(null);
 
+  useEffect(() => {
+    (username.current! as any).value = userData.username;
+    (displayName.current! as any).value = userData.displayName;
+    (firstname.current! as any).value = userData.firstname;
+    (lastname.current! as any).value = userData.lastname;
+  }, []);
+
   let handleFormSubmit = () => {
     let userSignupData = {
       username: (username.current! as any).value,
@@ -30,6 +43,17 @@ const SignupModal1: FC<ISignUpModal1Props> = ({ modal, setModal }) => {
       firstname: (firstname.current! as any).value,
       lastname: (lastname.current! as any).value,
     };
+
+    // Set the data
+    setUserData({
+      username: userSignupData.username,
+      displayName: userSignupData.displayName,
+      firstname: userSignupData.firstname,
+      lastname: userSignupData.lastname,
+      email: userData.email,
+      phonenumber: userData.phonenumber,
+      password: userData.password,
+    });
   };
 
   return (
@@ -50,26 +74,29 @@ const SignupModal1: FC<ISignUpModal1Props> = ({ modal, setModal }) => {
       <form
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
+
+          setModal(modal + 1);
+          handleFormSubmit();
         }}
       >
         <div>
           <label htmlFor="">Username</label>
-          <input type="text" ref={username} />
+          <input type="text" ref={username} required />
         </div>
 
         <div>
           <label htmlFor="">Display Name</label>
-          <input type="text" ref={displayName} />
+          <input type="text" ref={displayName} required />
         </div>
 
         <div>
           <label htmlFor="">Firstname</label>
-          <input type="text" ref={firstname} />
+          <input type="text" ref={firstname} required />
         </div>
 
         <div>
           <label htmlFor="">Lastname</label>
-          <input type="text" ref={lastname} />
+          <input type="text" ref={lastname} required />
         </div>
 
         <section>
@@ -80,14 +107,7 @@ const SignupModal1: FC<ISignUpModal1Props> = ({ modal, setModal }) => {
           >
             Home
           </button>
-          <button
-            onClick={() => {
-              setModal(modal + 1);
-              handleFormSubmit();
-            }}
-          >
-            Next
-          </button>
+          <button>Next</button>
         </section>
       </form>
     </main>
