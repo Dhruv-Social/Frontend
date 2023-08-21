@@ -1,6 +1,8 @@
 const devURL = "http://localhost:3000";
 
 import { NavigateFunction } from "react-router-dom";
+import { IUser } from "../components/signup/signupInterface";
+import { generateKeys } from "./keyGeneration";
 
 const handleLogin = (
   username: string,
@@ -299,6 +301,66 @@ const unLikePostEndpoint = (accessToken: string, postUuid: string) => {
     .catch((error) => console.log("error", error));
 };
 
+const postUserEndpoint = (userData: IUser) => {
+  var formdata = new FormData();
+
+  if (
+    userData.username === null ||
+    userData.displayName === null ||
+    userData.firstname === null ||
+    userData.lastname === null ||
+    userData.email === null ||
+    userData.phonenumber === null ||
+    userData.password === null
+  ) {
+    return false;
+  }
+
+  const { privateKey, publicKey } = generateKeys();
+  localStorage.setItem("privateKey", privateKey);
+
+  formdata.append("username", userData.username);
+  formdata.append("display_name", userData.displayName);
+  formdata.append("firstname", userData.firstname);
+  formdata.append("lastname", userData.lastname);
+  formdata.append("password", userData.password);
+  formdata.append("description", "This is my description");
+  formdata.append("location", "Auckland");
+  formdata.append("email", userData.email);
+  formdata.append("phonenumber", userData.phonenumber);
+  formdata.append("publicKey", publicKey);
+
+  var requestOptions: RequestInit = {
+    method: "POST",
+    body: formdata,
+    redirect: "follow",
+  };
+
+  fetch(`${devURL}/dhruvsocial/post/postUser`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => console.log("error", error));
+};
+
+const getChatMessages = (accessToken: string, forUser: string) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+  var requestOptions: RequestInit = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  return fetch(
+    `${devURL}/dhruvsocial/get/getChatMessages?userFor=${forUser}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => console.log("error", error));
+};
+
 export {
   devURL,
   handleLogin,
@@ -316,4 +378,6 @@ export {
   fetchIfLikedPost,
   likePostEndpoint,
   unLikePostEndpoint,
+  postUserEndpoint,
+  getChatMessages,
 };
