@@ -12,7 +12,7 @@ import {
   likePostEndpoint,
   unLikePostEndpoint,
 } from "../../core/requests";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
@@ -146,8 +146,9 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
   isFollowing,
   refreshToken,
 }) => {
-  let [buttonClicked, setButtonClicked] = useState<boolean>(isFollowing);
+  const naviagte = useNavigate()
 
+  let [buttonClicked, setButtonClicked] = useState<boolean>(isFollowing);
   let [userData, setUserData] = useState<User | null>(null);
 
   let playAudio = () => {
@@ -206,6 +207,12 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
               <strong>Followers: </strong> {userData.followers.length}
             </p>
           </section>
+          <button style={{marginRight: "1rem", cursor: "pointer"}} onClick={() => {
+            naviagte({
+              pathname: "/messages",
+              search: `?uuid=${userData?.uuid}`
+            })
+          }}>Send Message</button>
           {buttonClicked ? (
             <button
               onClick={() => {
