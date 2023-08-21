@@ -1,0 +1,38 @@
+@import "../../../App.scss";
+
+.DHS__Message__Small {
+  flex: 1;
+
+  height: 100%;
+
+  .DHS__Message__Small__Chat {
+    width: 100%;
+
+    padding: 0.5rem 0;
+
+    border-top: 0.1rem solid $grey;
+    border-bottom: 0.1rem solid $grey;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    margin: 1rem 0;
+
+    .DHS__Message__Small__Chat__ProfilePicture {
+      width: 20%;
+
+      aspect-ratio: 1/1;
+
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      background-color: $black;
+
+      border-radius: 50%;
+      border: 0.5rem solid $black;
+
+      margin-right: 1rem;
+    }
+  }
+}

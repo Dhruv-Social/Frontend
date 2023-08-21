@@ -1,15 +1,21 @@
 import "./messages.scss";
 
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import { ICurrentUserOpen } from "./messagesInterface";
+
+import BigMessages from "./bigMessages/bigMessages";
+import SmallMessages from "./smallMessages/smallMessages";
 
 interface IMessages {}
 
 const Messages: FC<IMessages> = ({}) => {
   let navigate = useNavigate();
-  let sendToClient = useRef(null);
-  const [sendTo, setSendTo] = useState<string>("");
+
+  const [currUserData, setCurrUserData] = useState<ICurrentUserOpen | null>(
+    null
+  );
 
   useEffect(() => {
     const refreshToken = sessionStorage.getItem("refreshToken");
@@ -25,66 +31,18 @@ const Messages: FC<IMessages> = ({}) => {
     },
   });
 
-  socket.on("sent", (message) => {
-    const messages = document.getElementById("messages");
-
-    const Message = document.createElement("p");
-
-    Message.innerText = message;
-    messages!.appendChild(Message);
-  });
-
-  socket.on("privateMessage", (message) => {
-    console.log(message);
-
-    const messages = document.getElementById("messages");
-
-    const Message = document.createElement("p");
-
-    Message.innerText = `${message.from}: ${message.message}`;
-    messages!.appendChild(Message);
+  socket.on("getChats", (data) => {
+    console.log(JSON.parse(data).length);
   });
 
   return (
     <main className="DHS__Message">
-      <input type="text" ref={sendToClient} />
-      <button
-        onClick={() => {
-          socket.emit("message", {
-            to: sendTo,
-            message: (sendToClient.current! as any).value,
-          });
-
-          const messages = document.getElementById("messages");
-
-          const message = document.createElement("p");
-
-          message.innerText = `You said: ${
-            (sendToClient.current! as any).value
-          }`;
-          messages!.appendChild(message);
-        }}
-      >
-        Send
-      </button>
-
-      <button
-        onClick={() => {
-          setSendTo("siddharthS");
-        }}
-      >
-        Siddahrth
-      </button>
-
-      <button
-        onClick={() => {
-          setSendTo("siddharthS");
-        }}
-      >
-        Siddhesh
-      </button>
-
-      <div id="messages"></div>
+      <SmallMessages socket={socket} />
+      <BigMessages
+        currUserData={currUserData}
+        setCurrUserData={setCurrUserData}
+        socket={socket}
+      />
     </main>
   );
 };
