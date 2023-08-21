@@ -4,6 +4,12 @@ import { NavigateFunction } from "react-router-dom";
 import { IUser } from "../components/signup/signupInterface";
 import { generateKeys } from "./keyGeneration";
 
+const HTTP_CODES = {
+  OK: 200,
+  BAD_REQUEST: 400,
+  CREATED: 201,
+};
+
 const handleLogin = (
   username: string,
   password: string,

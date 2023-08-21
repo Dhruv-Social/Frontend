@@ -1,8 +1,8 @@
 import "./signup.scss";
 
 import { FC, useEffect, useState } from "react";
-
 import { IUser } from "./signupInterface";
+import { postUserEndpoint } from "../../core/requests";
 
 // Modals
 import SignupModal1 from "./modals/modal1/modal1";
@@ -28,7 +28,29 @@ const Signup: FC<ISignUpProps> = ({}) => {
 
   useEffect(() => {
     if (submitData) {
-      alert("apicy");
+      // check data
+      if (
+        userData.username === null ||
+        userData.displayName === null ||
+        userData.firstname === null ||
+        userData.lastname === null
+      ) {
+        alert("Bro tried to pull a fast one on me");
+        return setModal(0);
+      }
+
+      if (userData.email === null || userData.phonenumber === null) {
+        alert("Bro tried to pull a fast one on me");
+        return setModal(1);
+      }
+
+      if (userData.password === null) {
+        alert("Bro tried to pull a fast one on me");
+        return setModal(2);
+      }
+
+      // Now we call the API
+      postUserEndpoint(userData);
     }
   }, [submitData]);
 

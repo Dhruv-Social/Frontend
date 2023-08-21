@@ -50,6 +50,10 @@ const BigMessages: FC<IBigMessagesProps> = ({
       if (userUUID === null) return;
 
       getOtherUser(token, userUUID).then((userData) => {
+        if (userData.success === false) {
+          return alert("An error has occoured while fetching user data");
+        }
+
         setCurrUserData({
           uuid: userData.uuid,
           profilePicture: userData.profilePicture,
@@ -58,6 +62,10 @@ const BigMessages: FC<IBigMessagesProps> = ({
 
         // get messages for chat
         getChatMessages(token, userData.uuid).then((data) => {
+          if (data.success === false) {
+            return;
+          }
+
           setMessages(data);
         });
       });
@@ -97,7 +105,7 @@ const BigMessages: FC<IBigMessagesProps> = ({
             <h2>{currUserData.displayName}</h2>
           </div>
           <div className="DHS__Message__Big__Messages">
-            {messages !== null
+            {messages !== null && messages.length !== 0
               ? messages.map((message) => {
                   return (
                     <div
