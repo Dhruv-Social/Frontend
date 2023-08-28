@@ -131,7 +131,7 @@ const getReel = (accessToken: string) => {
   };
 
   return fetch(`${devURL}/dhruvsocial/get/reels`, requestOptions)
-    .then((response) => response.blob())
+    .then((response) => response.json())
     .then((result) => result)
     .catch((error) => console.log("error", error));
 };

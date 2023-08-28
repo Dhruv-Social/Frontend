@@ -1,0 +1,30 @@
+@import "../../App.scss";
+
+.DHS__Reels {
+  width: 80%;
+  height: 88vh;
+  margin: 12vh 10% 0 10%;
+
+  padding: 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  video {
+    height: 100%;
+  }
+
+  button {
+    font-size: 4rem;
+
+    padding: 1rem;
+
+    border: none;
+
+    background-color: transparent;
+    color: $white;
+
+    margin-top: auto;
+  }
+}

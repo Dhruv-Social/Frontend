@@ -2,6 +2,8 @@ import "./reels.scss";
 
 import { FC, useEffect, useState } from "react";
 import { getAccessToken, getReel } from "../../core/requests";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 
 interface IReelProps {}
 
@@ -16,23 +18,27 @@ const Reels: FC<IReelProps> = ({}) => {
     if (currentReel === null) {
       getAccessToken(refreshToken).then((token) => {
         getReel(token).then((reel) => {
-          setCurrentReel(reel);
+          setCurrentReel(reel.reelUrl);
         });
       });
     }
-  });
+  }, []);
 
   return (
     <main className="DHS__Reels">
-      <h2>e</h2>
       {currentReel !== null ? (
-        <video width="400" controls>
+        <video id="video" autoPlay loop muted controls>
           <source src={currentReel} type="video/webm" />
           Your browser does not support HTML video.
         </video>
-      ) : (
-        <h1>Bruh</h1>
-      )}
+      ) : null}
+      <button
+        onClick={() => {
+          window.location.reload();
+        }}
+      >
+        <FontAwesomeIcon icon={faRefresh} />
+      </button>
     </main>
   );
 };

@@ -20,36 +20,7 @@ import {
   faChainSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import Sound from "../../assets/pip.mp3";
-
-interface Post {
-  post_uuid: string;
-  author_uuid: string;
-  author_display_name: string;
-  author_username: string;
-  author_profile_picture: string;
-  likes: string[];
-  comments: {
-    commentUuid: string;
-    authorUuid: string;
-    text: string;
-    likes: number;
-  }[];
-  text: string;
-  media: string[];
-}
-
-interface User {
-  uuid: string;
-  username: string;
-  display_name: string;
-  description: string;
-  location: string;
-  followers: string[];
-  following: string[];
-  posts: string[];
-  profilePicture: string;
-  banner: string;
-}
+import { UserOther, Post } from "../../core/interfaces";
 
 interface IProfileOtherProps {}
 
@@ -59,7 +30,7 @@ const ProfileOther: FC<IProfileOtherProps> = ({}) => {
   const [searchParams] = useSearchParams();
   let userUUID = searchParams.get("uuid");
 
-  let [profileData, setProfileData] = useState<User | null>(null);
+  let [profileData, setProfileData] = useState<UserOther | null>(null);
   let [posts, setPosts] = useState<Post[] | null>(null);
   let [isFollowing, setIsFollowing] = useState<boolean | null>(null);
 
@@ -146,10 +117,10 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
   isFollowing,
   refreshToken,
 }) => {
-  const naviagte = useNavigate()
+  const naviagte = useNavigate();
 
   let [buttonClicked, setButtonClicked] = useState<boolean>(isFollowing);
-  let [userData, setUserData] = useState<User | null>(null);
+  let [userData, setUserData] = useState<UserOther | null>(null);
 
   let playAudio = () => {
     new Audio(Sound).play();
@@ -207,12 +178,17 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
               <strong>Followers: </strong> {userData.followers.length}
             </p>
           </section>
-          <button style={{marginRight: "1rem", cursor: "pointer"}} onClick={() => {
-            naviagte({
-              pathname: "/messages",
-              search: `?uuid=${userData?.uuid}`
-            })
-          }}>Send Message</button>
+          <button
+            style={{ marginRight: "1rem", cursor: "pointer" }}
+            onClick={() => {
+              naviagte({
+                pathname: "/messages",
+                search: `?uuid=${userData?.uuid}`,
+              });
+            }}
+          >
+            Send Message
+          </button>
           {buttonClicked ? (
             <button
               onClick={() => {
