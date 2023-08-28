@@ -2,7 +2,7 @@ import "./messages.scss";
 
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
+import { socket } from "../../core/socket";
 import { ICurrentUserOpen } from "./messagesInterface";
 
 import BigMessages from "./bigMessages/bigMessages";
@@ -23,13 +23,7 @@ const Messages: FC<IMessages> = ({}) => {
     if (refreshToken === null) {
       navigate("/");
     }
-  });
-
-  const socket = io("http://localhost:3000", {
-    auth: {
-      token: sessionStorage.getItem("refreshToken"),
-    },
-  });
+  }, []);
 
   socket.on("getChats", (data) => {
     console.log(JSON.parse(data).length);
@@ -37,11 +31,10 @@ const Messages: FC<IMessages> = ({}) => {
 
   return (
     <main className="DHS__Message">
-      <SmallMessages socket={socket} />
+      <SmallMessages />
       <BigMessages
         currUserData={currUserData}
         setCurrUserData={setCurrUserData}
-        socket={socket}
       />
     </main>
   );

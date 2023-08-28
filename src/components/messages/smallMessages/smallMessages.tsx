@@ -1,15 +1,13 @@
-import { Socket } from "socket.io-client";
 import "./smallMessages.scss";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { IChatSmall } from "../messagesInterface";
 import { useNavigate } from "react-router-dom";
+import { socket } from "../../../core/socket";
 
-interface ISmallMessagesProps {
-  socket: Socket;
-}
+interface ISmallMessagesProps {}
 
-const SmallMessages: FC<ISmallMessagesProps> = ({ socket }) => {
+const SmallMessages: FC<ISmallMessagesProps> = ({}) => {
   const navigate = useNavigate();
   const [chats, setChats] = useState<IChatSmall[] | null>(null);
 

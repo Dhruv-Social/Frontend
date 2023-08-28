@@ -2,7 +2,7 @@ import "./bigMessages.scss";
 
 import { FC, useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Socket } from "socket.io-client";
+import { socket } from "../../../core/socket";
 import {
   getAccessToken,
   getOtherUser,
@@ -13,13 +13,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 interface IBigMessagesProps {
-  socket: Socket;
   currUserData: ICurrentUserOpen | null;
   setCurrUserData: (user: ICurrentUserOpen) => void;
 }
 
 const BigMessages: FC<IBigMessagesProps> = ({
-  socket,
   currUserData,
   setCurrUserData,
 }) => {
@@ -38,6 +36,25 @@ const BigMessages: FC<IBigMessagesProps> = ({
     if (userUUID === "") {
       navigate("/messages");
     }
+
+    socket.on("privateMessage", (data) => {
+      if (currUserData === null) return;
+
+      if (data.from === currUserData.uuid) {
+        const messages = document.getElementsByClassName(
+          "DHS__Message__Big__Messages"
+        );
+
+        console.log(messages);
+
+        const message = document.createElement("div");
+        message.className = "DHS__Message__Big__Messages__Received";
+
+        message.innerText = data.message;
+
+        messages[0].appendChild(message);
+      }
+    });
   }, []);
 
   // UseEffect to get the data of a user when the compoenent loads
@@ -72,21 +89,8 @@ const BigMessages: FC<IBigMessagesProps> = ({
     });
   }, [userUUID]);
 
-  // When they recieve a message
-  socket.on("privateMessage", (data) => {
-    if (currUserData === null) return;
-
-    if (data.from === currUserData.uuid) {
-      const messages = document.getElementsByClassName(
-        "DHS__Message__Big__Messages"
-      );
-
-      const message = document.createElement("div");
-      message.className = "DHS__Message__Big__Messages__Received";
-
-      message.innerText = data.message;
-      messages[0].appendChild(message);
-    }
+  socket.on("eee", () => {
+    console.log("e");
   });
 
   return (
@@ -109,6 +113,7 @@ const BigMessages: FC<IBigMessagesProps> = ({
               ? messages.map((message) => {
                   return (
                     <div
+                      key={crypto.randomUUID()}
                       className={
                         currUserData.uuid === message.to
                           ? "DHS__Message__Big__Messages__Sent"
