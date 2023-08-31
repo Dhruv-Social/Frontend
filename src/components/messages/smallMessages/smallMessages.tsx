@@ -1,23 +1,33 @@
 import "./smallMessages.scss";
 
+// Imports
 import { FC, useState } from "react";
 import { IChatSmall } from "../messagesInterface";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../../../core/socket";
 
+// Interface for function component
 interface ISmallMessagesProps {}
+
+// Functional Component
 
 const SmallMessages: FC<ISmallMessagesProps> = ({}) => {
   const navigate = useNavigate();
+
+  // State to store the chats that the user is in
   const [chats, setChats] = useState<IChatSmall[] | null>(null);
 
+  // Om the chats message, we change the state
   socket.on("chats", (chats) => {
     setChats(chats);
   });
 
+  // Return the JSX
   return (
     <div className="DHS__Message__Small">
+      {/* CONDITIONAL RENDERING: If the chats are null, then we return "Loading"  */}
       {chats !== null ? (
+        // Then we just loop over all the chats and show them to the user
         chats.map((chat) => {
           return (
             <div

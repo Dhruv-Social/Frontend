@@ -1,5 +1,6 @@
 import "./bigMessages.scss";
 
+// Imports
 import { FC, useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { socket } from "../../../core/socket";
@@ -12,31 +13,41 @@ import { ICurrentUserOpen, IMessage } from "../messagesInterface";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
+// Interface for function component
 interface IBigMessagesProps {
   currUserData: ICurrentUserOpen | null;
   setCurrUserData: (user: ICurrentUserOpen) => void;
 }
 
+// Functional Component
 const BigMessages: FC<IBigMessagesProps> = ({
   currUserData,
   setCurrUserData,
 }) => {
-  // Get the uuid
+  // get the search params and queries
   const [searchParams] = useSearchParams();
+
+  // State for the current messages between user1 and user2
   const [messages, setMessages] = useState<IMessage[] | null>(null);
 
+  // Get the user uuid from the url
   let userUUID = searchParams.get("uuid");
+  // Ref to the input for the current message
   let messageToSend = useRef(null);
+
+  // Get the refresh toekn
   let refreshToken = sessionStorage.getItem("refreshToken");
 
   const navigate = useNavigate();
 
-  // Check the userUuid
+  // UseEffect to CHECK THE CURRENT USER
   useEffect(() => {
+    // If the user UUID is empty, then we return them to the messages endpoint
     if (userUUID === "") {
       navigate("/messages");
     }
 
+    // if the user gets a message (socket event), then we append it to the the current messages
     socket.on("privateMessage", (data) => {
       if (currUserData === null) return;
 
@@ -63,6 +74,7 @@ const BigMessages: FC<IBigMessagesProps> = ({
       return navigate("/");
     }
 
+    // Get token
     getAccessToken(refreshToken).then((token) => {
       if (userUUID === null) return;
 
@@ -89,12 +101,10 @@ const BigMessages: FC<IBigMessagesProps> = ({
     });
   }, [userUUID]);
 
-  socket.on("eee", () => {
-    console.log("e");
-  });
-
+  // Return JSX
   return (
     <div className="DHS__Message__Big">
+      {/* CONDITIONAL RENDERING: If the user data is null, then we return "Nothing going on here"*/}
       {currUserData !== null ? (
         <>
           <div className="DHS__Message__Big__Top">
@@ -109,8 +119,10 @@ const BigMessages: FC<IBigMessagesProps> = ({
             <h2>{currUserData.displayName}</h2>
           </div>
           <div className="DHS__Message__Big__Messages">
+            {/* If the messages are null, or have a length of 0, we return null as we have no messages to show */}
             {messages !== null && messages.length !== 0
-              ? messages.map((message) => {
+              ? // here we are now looping over all the messages and showing them 1 by 1 the the user, then results in a time complexity of O(n) or Linear
+                messages.map((message) => {
                   return (
                     <div
                       key={crypto.randomUUID()}
@@ -129,6 +141,7 @@ const BigMessages: FC<IBigMessagesProps> = ({
           <form
             className="DHS__Message__Big__SendMessage"
             onSubmit={(e) => {
+              // On submit, we send an event to the server and show the message to the sender
               e.preventDefault();
 
               socket.emit("message", {

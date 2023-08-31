@@ -1,13 +1,17 @@
 import "./landing.scss";
 
+// Imports
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Interface for function component
 interface ILandingProps {}
 
+// Functional Component
 const Landing: FC<ILandingProps> = ({}) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Redirect variable to redirect the user
 
+  // Functions to change the page Endpoint
   const handleLogInButton = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -20,6 +24,7 @@ const Landing: FC<ILandingProps> = ({}) => {
     navigate("/signUp");
   };
 
+  // Return JSX
   return (
     <main className="DHS__Landing">
       <div className="DHS__Landing__Left"></div>
@@ -29,6 +34,7 @@ const Landing: FC<ILandingProps> = ({}) => {
         <button
           className="DHS__Landing__Right__JoinUs"
           onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            // If the user clicks the Join Us button, then we call the "handleSignUpButton" and change then URL
             handleSignUpButton(event);
           }}
         >
@@ -37,6 +43,7 @@ const Landing: FC<ILandingProps> = ({}) => {
         <button
           className="DHS__Landing__Right__LogIn"
           onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            // If the user clicks the Log in button, then we call the "handleLogInButton" and change the URL
             handleLogInButton(event);
           }}
         >

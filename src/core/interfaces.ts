@@ -47,3 +47,9 @@ export interface Post {
   text: string;
   media: string[];
 }
+
+export interface IUsers {
+  uuid: string;
+  profilePicture: string;
+  displayName: string;
+}

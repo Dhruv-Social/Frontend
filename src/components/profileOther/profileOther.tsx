@@ -1,5 +1,6 @@
 import "./profileOther.scss";
 
+// Imports
 import { FC, useEffect, useState } from "react";
 import {
   getAccessToken,
@@ -14,32 +15,36 @@ import {
 } from "../../core/requests";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart,
-  faComment,
-  faChainSlash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons";
 import Sound from "../../assets/pip.mp3";
 import { UserOther, Post } from "../../core/interfaces";
 
+// Interface for function component
 interface IProfileOtherProps {}
 
+// Functional Component
 const ProfileOther: FC<IProfileOtherProps> = ({}) => {
+  // Refresh token from sessionStorage
   let refreshToken = sessionStorage.getItem("refreshToken");
 
+  // UUID from the query parametres
   const [searchParams] = useSearchParams();
   let userUUID = searchParams.get("uuid");
 
+  // Profile State for the searched user profile, their posts and if we are following them.
   let [profileData, setProfileData] = useState<UserOther | null>(null);
   let [posts, setPosts] = useState<Post[] | null>(null);
   let [isFollowing, setIsFollowing] = useState<boolean | null>(null);
 
+  // UseEffect to get that users data
   useEffect(() => {
+    // If token is null, then we know they should not be on this route
     if (refreshToken === null) return alert("bruh");
 
     getAccessToken(refreshToken).then((token) => {
       if (userUUID === null) return alert("bruh");
 
+      // Get the data
       getOtherUser(token, userUUID).then((userData) => {
         setProfileData(userData);
       });
@@ -54,6 +59,7 @@ const ProfileOther: FC<IProfileOtherProps> = ({}) => {
 
   return (
     <main className="DHS__Profile">
+      {/* CONDITIONAL RENDERING: if the data is null, then we know the API has not returned the data */}
       {profileData !== null &&
       isFollowing !== null &&
       posts !== null &&
@@ -77,15 +83,18 @@ const ProfileOther: FC<IProfileOtherProps> = ({}) => {
   );
 };
 
+// Interface for function component
 interface _IProfileOtherTopTopProps {
   profilePicture: string;
   banner: string;
 }
 
+// Functional Component
 const _ProfileOtherTop: FC<_IProfileOtherTopTopProps> = ({
   profilePicture,
   banner,
 }) => {
+  // Return JSX
   return (
     <div className="DHS__Profile__Top">
       <div className="DHS__Profile__Top__Images">
@@ -106,12 +115,14 @@ const _ProfileOtherTop: FC<_IProfileOtherTopTopProps> = ({
   );
 };
 
+// Interface for function component
 interface _IProfileOtherBottonProps {
   uuid: string;
   isFollowing: boolean;
   refreshToken: string;
 }
 
+// Functional Component
 const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
   uuid,
   isFollowing,
@@ -119,6 +130,7 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
 }) => {
   const naviagte = useNavigate();
 
+  // Optimun state
   let [buttonClicked, setButtonClicked] = useState<boolean>(isFollowing);
   let [userData, setUserData] = useState<UserOther | null>(null);
 
@@ -126,6 +138,7 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
     new Audio(Sound).play();
   };
 
+  // Use Effct that runs on compoennt mount
   useEffect(() => {
     getAccessToken(refreshToken).then((token) => {
       getOtherUser(token, uuid).then((userData) => {
@@ -134,6 +147,7 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
     });
   }, [buttonClicked]);
 
+  // Function to follow user
   const followUser = () => {
     getAccessToken(refreshToken).then((token) => {
       followUserEndpoint(token, uuid).then((returnEndpoint) => {
@@ -146,6 +160,7 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
     });
   };
 
+  // Function to unfollow user
   const unFollowUser = () => {
     getAccessToken(refreshToken).then((token) => {
       unFollowUserEndpoint(token, uuid).then((returnEndpoint) => {
@@ -158,8 +173,10 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
     });
   };
 
+  // Return JSX
   return (
     <>
+      {/* CONDITIONAL RENDERING: If user data is null, then we know the api is still being called */}
       {userData !== null ? (
         <div className="DHS__Profile__Bottom">
           <h2>{userData.username}</h2>
@@ -216,11 +233,14 @@ const _ProfileOtherBotton: FC<_IProfileOtherBottonProps> = ({
   );
 };
 
+// Interface for function component
 interface _IProfileOtherPostsProps {
   posts: Post[];
 }
 
+// Function Component
 const _ProfileOtherPosts: FC<_IProfileOtherPostsProps> = ({ posts }) => {
+  // Return JSX
   return (
     <div className="DHS__Profile__Posts">
       <h2>Posts</h2>
@@ -237,16 +257,22 @@ const _ProfileOtherPosts: FC<_IProfileOtherPostsProps> = ({ posts }) => {
   );
 };
 
+// Interface for function component
 interface __IProfileOtherPostsPostProps {
   post: Post;
 }
 
+// Function Component
 const __ProfileOtherPostsPost: FC<__IProfileOtherPostsPostProps> = ({
   post,
 }) => {
+  // Optimun State
   let [haveILikedPost, setHaveILikedPost] = useState<boolean>(false);
+
+  // Refresh token from session storage
   let refreshToken = sessionStorage.getItem("refreshToken");
 
+  // Effect that runs on startup
   useEffect(() => {
     if (refreshToken === null) {
       return alert("Bruh");
@@ -259,6 +285,7 @@ const __ProfileOtherPostsPost: FC<__IProfileOtherPostsPostProps> = ({
     });
   }, [haveILikedPost]);
 
+  // Function to like post
   const likePost = () => {
     if (refreshToken === null) {
       return alert("bruh");
@@ -276,6 +303,7 @@ const __ProfileOtherPostsPost: FC<__IProfileOtherPostsPostProps> = ({
     });
   };
 
+  // Function to unlike post
   const unLikePost = () => {
     if (refreshToken === null) {
       return alert("bruh");
@@ -293,6 +321,7 @@ const __ProfileOtherPostsPost: FC<__IProfileOtherPostsPostProps> = ({
     });
   };
 
+  // Return JSX
   return (
     <div className="DHS__Profile__Posts__Post">
       <section className="DHS__Profile__Posts__Post__Profile">

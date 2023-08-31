@@ -1,4 +1,4 @@
-import { FC, createContext } from "react";
+import { FC } from "react";
 
 import Navbar from "../components/navbar/navbar";
 import Home from "../components/home/home";

@@ -1,30 +1,32 @@
 import "./profile.scss";
 
+// Imports
 import { FC, useEffect, useState } from "react";
 import {
   getAccessToken,
   getProfileData,
   getUserPosts,
-} from "../../core/requests";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons";
-import {
   unLikePostEndpoint,
   likePostEndpoint,
   fetchIfLikedPost,
 } from "../../core/requests";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons";
 import { User, Post } from "../../core/interfaces";
 
+// Interface for function component
 interface IProfileProps {}
 
+// Functional Component
 const Profile: FC<IProfileProps> = ({}) => {
+  // Refresh token from sessionStorage
   let refreshToken = sessionStorage.getItem("refreshToken");
 
+  // State for the current user profile data and their posts
   let [profileData, setProfileData] = useState<User | null>(null);
   let [posts, setPosts] = useState<Post[] | null>(null);
 
+  // useEffect hook to get the self profileData as well as their posts
   useEffect(() => {
     if (refreshToken === null) return alert("bruh");
 
@@ -36,10 +38,14 @@ const Profile: FC<IProfileProps> = ({}) => {
         setPosts(posts);
       });
     });
+
+    // Empty dependency array beacuse we only want this to be called on compoennt mount
   }, []);
 
+  // Return JSX
   return (
     <main className="DHS__Profile">
+      {/* CONDITIONAL RENDERING: If the posts or user data are NULL, then we know the API has not returned the data yet so we just return "Loading" */}
       {profileData !== null && posts !== null ? (
         <>
           <_ProfileTop
@@ -63,12 +69,14 @@ const Profile: FC<IProfileProps> = ({}) => {
   );
 };
 
+// Interface for function component
 interface _IProfileTopProps {
   profilePicture: string;
   banner: string;
 }
-
+// Functional Component
 const _ProfileTop: FC<_IProfileTopProps> = ({ profilePicture, banner }) => {
+  // Return JSX
   return (
     <div className="DHS__Profile__Top">
       <div className="DHS__Profile__Top__Images">
@@ -89,6 +97,7 @@ const _ProfileTop: FC<_IProfileTopProps> = ({ profilePicture, banner }) => {
   );
 };
 
+// Interface for function component
 interface _IProfileBottonProps {
   displayName: string;
   username: string;
@@ -98,6 +107,7 @@ interface _IProfileBottonProps {
   following: number;
 }
 
+// Functional Component
 const _ProfileBotton: FC<_IProfileBottonProps> = ({
   displayName,
   username,
@@ -106,6 +116,7 @@ const _ProfileBotton: FC<_IProfileBottonProps> = ({
   followers,
   following,
 }) => {
+  // Return JSX
   return (
     <div className="DHS__Profile__Bottom">
       <h2>{displayName}</h2>
@@ -128,14 +139,17 @@ const _ProfileBotton: FC<_IProfileBottonProps> = ({
   );
 };
 
+// Interface for function component
 interface _IProfilePostsProps {
   posts: Post[];
 }
 
+// Functional Component
 const _ProfilePosts: FC<_IProfilePostsProps> = ({ posts }) => {
   return (
     <div className="DHS__Profile__Posts">
       <h2>Posts</h2>
+      {/* CONDITIONAL RENDERING: If the posts have a length of 0, then the user does not have any posts */}
       {posts.length !== 0 ? (
         posts.map((post) => {
           return <__ProfilePostsPost post={post} key={crypto.randomUUID()} />;
@@ -147,15 +161,20 @@ const _ProfilePosts: FC<_IProfilePostsProps> = ({ posts }) => {
   );
 };
 
+// Interface for function component
 interface __ProfilePostsPostProps {
   post: Post;
 }
 
+// Functional Component
 const __ProfilePostsPost: FC<__ProfilePostsPostProps> = ({ post }) => {
+  // Optimum State
   let [haveILikedPost, setHaveILikedPost] = useState<boolean>(false);
+  // Refresh token from sessionStorage
   let refreshToken = sessionStorage.getItem("refreshToken");
 
   useEffect(() => {
+    // If the token is null, then we know they should not be on this route.
     if (refreshToken === null) {
       return alert("Bruh");
     }
@@ -167,6 +186,7 @@ const __ProfilePostsPost: FC<__ProfilePostsPostProps> = ({ post }) => {
     });
   }, [haveILikedPost]);
 
+  // Handeler to like the post if they click the like button
   const likePost = () => {
     if (refreshToken === null) {
       return alert("bruh");
@@ -179,11 +199,12 @@ const __ProfilePostsPost: FC<__ProfilePostsPostProps> = ({ post }) => {
         }
 
         setHaveILikedPost((like) => !like);
-        return alert("Success");
+        return;
       });
     });
   };
 
+  // Handeler to unlike the post if they click the like button
   const unLikePost = () => {
     if (refreshToken === null) {
       return alert("bruh");
@@ -196,7 +217,7 @@ const __ProfilePostsPost: FC<__ProfilePostsPostProps> = ({ post }) => {
         }
 
         setHaveILikedPost((like) => !like);
-        return alert("Success");
+        return;
       });
     });
   };
@@ -218,7 +239,9 @@ const __ProfilePostsPost: FC<__ProfilePostsPostProps> = ({ post }) => {
       <section className="DHS__Profile__Posts__Post__Text__Images">
         <p>{post.text}</p>
 
+        {/* RENDERING: to map or transform each child in the children data structure */}
         {post.media.map((media) => {
+          // Checking for "null" edge case because the API returns "null" if the image is null.
           if (media === "null") {
             return null;
           }

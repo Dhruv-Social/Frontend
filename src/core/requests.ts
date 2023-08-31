@@ -4,12 +4,13 @@ import { NavigateFunction } from "react-router-dom";
 import { IUser } from "../components/signup/signupInterface";
 import { generateKeys } from "./keyGeneration";
 
-const HTTP_CODES = {
-  OK: 200,
-  BAD_REQUEST: 400,
-  CREATED: 201,
-};
-
+/**
+ * Function to handle login and any errors that may come with it/
+ * @param username String
+ * @param password String
+ * @param setLoginError State Variable
+ * @param navigate Naigate Function
+ */
 const handleLogin = (
   username: string,
   password: string,
@@ -51,6 +52,11 @@ const handleLogin = (
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function to get an access token from a refresh token
+ * @param refreshToken String
+ * @returns promise of the api return
+ */
 const getAccessToken = (refreshToken: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
@@ -72,6 +78,11 @@ const getAccessToken = (refreshToken: string) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function to get the current logged in user profile data
+ * @param accessToken String
+ * @returns Promise of the API Return
+ */
 const getProfileData = (accessToken: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -88,6 +99,11 @@ const getProfileData = (accessToken: string) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function to get the current logged in user posts
+ * @param accessToken String
+ * @returns Promise of the API return data
+ */
 const getUserPosts = (accessToken: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -104,6 +120,11 @@ const getUserPosts = (accessToken: string) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function the get the posts for the home page
+ * @param accessToken String
+ * @returns Promise of the API return data
+ */
 const getForYouPosts = (accessToken: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -120,6 +141,11 @@ const getForYouPosts = (accessToken: string) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function to get a reel
+ * @param accessToken String
+ * @returns Promise of the API return data
+ */
 const getReel = (accessToken: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -136,6 +162,12 @@ const getReel = (accessToken: string) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function to search a user
+ * @param accessToken String
+ * @param search String
+ * @returns Promise of the API return data
+ */
 const searchUsers = (accessToken: string, search: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -155,6 +187,12 @@ const searchUsers = (accessToken: string, search: string) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function to get another user from theur UUID
+ * @param accessToken String
+ * @param uuid String
+ * @returns Promise of the API return data
+ */
 const getOtherUser = (accessToken: string, uuid: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -174,6 +212,12 @@ const getOtherUser = (accessToken: string, uuid: string) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function to check if the current logged in user is following another user
+ * @param accessToken String
+ * @param uuid String
+ * @returns Promise of the API return data
+ */
 const getIfFollowing = (accessToken: string, uuid: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -193,6 +237,12 @@ const getIfFollowing = (accessToken: string, uuid: string) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function to get another users posts
+ * @param accessToken String
+ * @param uuid String
+ * @returns Promise of the API return data
+ */
 const getOtherUserPosts = (accessToken: string, uuid: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -212,6 +262,12 @@ const getOtherUserPosts = (accessToken: string, uuid: string) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function to follow a user
+ * @param accessToken String
+ * @param uuid String
+ * @returns Promise of the API return data
+ */
 const followUserEndpoint = (accessToken: string, uuid: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -231,6 +287,12 @@ const followUserEndpoint = (accessToken: string, uuid: string) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function to unfollow a user
+ * @param accessToken String
+ * @param uuid String
+ * @returns Promise of the API return data
+ */
 const unFollowUserEndpoint = (accessToken: string, uuid: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -250,6 +312,12 @@ const unFollowUserEndpoint = (accessToken: string, uuid: string) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Fetch if the current logged in user has already liked a post
+ * @param accessToken String
+ * @param postUuid String
+ * @returns Promise of the API return data
+ */
 const fetchIfLikedPost = (accessToken: string, postUuid: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -269,6 +337,12 @@ const fetchIfLikedPost = (accessToken: string, postUuid: string) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function to like a post
+ * @param accessToken String
+ * @param postUuid String
+ * @returns Promise of the API return data
+ */
 const likePostEndpoint = (accessToken: string, postUuid: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -288,6 +362,12 @@ const likePostEndpoint = (accessToken: string, postUuid: string) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function to unlike post
+ * @param accessToken String
+ * @param postUuid String
+ * @returns Promise of the API return data
+ */
 const unLikePostEndpoint = (accessToken: string, postUuid: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -307,6 +387,11 @@ const unLikePostEndpoint = (accessToken: string, postUuid: string) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function to post a user to the API
+ * @param userData IUser
+ * @returns Promise of the API return data
+ */
 const postUserEndpoint = (userData: IUser) => {
   var formdata = new FormData();
 
@@ -348,6 +433,12 @@ const postUserEndpoint = (userData: IUser) => {
     .catch((error) => console.log("error", error));
 };
 
+/**
+ * Function the get the chat messages from a chat between 2 users
+ * @param accessToken String
+ * @param forUser String
+ * @returns Promise of the API return data
+ */
 const getChatMessages = (accessToken: string, forUser: string) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);

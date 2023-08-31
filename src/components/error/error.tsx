@@ -1,5 +1,6 @@
 import "./error.scss";
 
+// Imports
 import { FC } from "react";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +14,7 @@ const ErrorNotification: FC<IErrorNotificationProps> = ({
   error,
   description,
 }) => {
+  // Return JSX
   return (
     <span className="DHS__Error">
       <article className="DHS__Error__Inner">
