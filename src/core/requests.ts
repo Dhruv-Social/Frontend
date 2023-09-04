@@ -390,9 +390,10 @@ const unLikePostEndpoint = (accessToken: string, postUuid: string) => {
 /**
  * Function to post a user to the API
  * @param userData IUser
+ * @param navigate Navigate Function
  * @returns Promise of the API return data
  */
-const postUserEndpoint = (userData: IUser) => {
+const postUserEndpoint = (userData: IUser, navigate: NavigateFunction) => {
   var formdata = new FormData();
 
   if (
@@ -407,30 +408,52 @@ const postUserEndpoint = (userData: IUser) => {
     return false;
   }
 
-  const { privateKey, publicKey } = generateKeys();
-  localStorage.setItem("privateKey", privateKey);
+  (async () => {
+    const { privateKey, publicKey } = await generateKeys();
 
-  formdata.append("username", userData.username);
-  formdata.append("display_name", userData.displayName);
-  formdata.append("firstname", userData.firstname);
-  formdata.append("lastname", userData.lastname);
-  formdata.append("password", userData.password);
-  formdata.append("description", "This is my description");
-  formdata.append("location", "Auckland");
-  formdata.append("email", userData.email);
-  formdata.append("phonenumber", userData.phonenumber);
-  formdata.append("publicKey", publicKey);
+    if (
+      userData.username === null ||
+      userData.displayName === null ||
+      userData.firstname === null ||
+      userData.lastname === null ||
+      userData.password === null ||
+      userData.email === null ||
+      userData.phonenumber === null
+    ) {
+      return;
+    }
 
-  var requestOptions: RequestInit = {
-    method: "POST",
-    body: formdata,
-    redirect: "follow",
-  };
+    localStorage.setItem("privateKey", privateKey);
 
-  fetch(`${devURL}/dhruvsocial/post/postUser`, requestOptions)
-    .then((response) => response.json())
-    .then((result) => result)
-    .catch((error) => console.log("error", error));
+    formdata.append("username", userData.username);
+    formdata.append("display_name", userData.displayName);
+    formdata.append("firstname", userData.firstname);
+    formdata.append("lastname", userData.lastname);
+    formdata.append("password", userData.password);
+    formdata.append("description", "This is my description");
+    formdata.append("location", "Auckland");
+    formdata.append("email", userData.email);
+    formdata.append("phonenumber", userData.phonenumber);
+    formdata.append("publicKey", publicKey);
+
+    var requestOptions: RequestInit = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch(`${devURL}/dhruvsocial/post/postUser`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        if (result === "success") {
+          alert("Please check your email for next steps on how to verify");
+          navigate("/login");
+        } else {
+          alert(JSON.parse(result).details.reason);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  })();
 };
 
 /**

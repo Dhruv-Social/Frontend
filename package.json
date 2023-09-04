@@ -15,6 +15,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@tauri-apps/api": "^1.3.0",
+    "js-crypto-key-utils": "^1.0.6",
+    "js-crypto-rsa": "^1.0.6",
     "react": "^0.0.0-experimental-c8deb5db6-20230622",
     "react-dom": "^0.0.0-experimental-c8deb5db6-20230622",
     "react-router-dom": "^6.11.2",

@@ -9,10 +9,13 @@ import SignupModal1 from "./modals/modal1/modal1";
 import SignupModal2 from "./modals/modal2/modal2";
 import SignupModal3 from "./modals/modal3/modal3";
 import SignupModal4 from "./modals/modal4/modal4";
+import { useNavigate } from "react-router-dom";
 
 interface ISignUpProps {}
 
 const Signup: FC<ISignUpProps> = ({}) => {
+  const navigate = useNavigate();
+
   let [modal, setModal] = useState<number>(0);
   let [userData, setUserData] = useState<IUser>({
     username: null,
@@ -50,7 +53,7 @@ const Signup: FC<ISignUpProps> = ({}) => {
       }
 
       // Now we call the API
-      postUserEndpoint(userData);
+      postUserEndpoint(userData, navigate);
     }
   }, [submitData]);
 

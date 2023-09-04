@@ -46,26 +46,6 @@ const BigMessages: FC<IBigMessagesProps> = ({
     if (userUUID === "") {
       navigate("/messages");
     }
-
-    // if the user gets a message (socket event), then we append it to the the current messages
-    socket.on("privateMessage", (data) => {
-      if (currUserData === null) return;
-
-      if (data.from === currUserData.uuid) {
-        const messages = document.getElementsByClassName(
-          "DHS__Message__Big__Messages"
-        );
-
-        console.log(messages);
-
-        const message = document.createElement("div");
-        message.className = "DHS__Message__Big__Messages__Received";
-
-        message.innerText = data.message;
-
-        messages[0].appendChild(message);
-      }
-    });
   }, []);
 
   // UseEffect to get the data of a user when the compoenent loads
@@ -100,6 +80,24 @@ const BigMessages: FC<IBigMessagesProps> = ({
       });
     });
   }, [userUUID]);
+
+  // if the user gets a message (socket event), then we append it to the the current messages
+  socket.on("privateMessage", (data) => {
+    if (currUserData === null) return;
+
+    if (data.from === currUserData.uuid) {
+      const messages = document.getElementsByClassName(
+        "DHS__Message__Big__Messages"
+      );
+
+      const message = document.createElement("div");
+      message.className = "DHS__Message__Big__Messages__Received";
+
+      message.innerText = data.message;
+
+      messages[0].appendChild(message);
+    }
+  });
 
   // Return JSX
   return (
