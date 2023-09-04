@@ -481,6 +481,29 @@ const getChatMessages = (accessToken: string, forUser: string) => {
     .catch((error) => console.log("error", error));
 };
 
+const createPost = (accessToken: string, postText: string, media: FileList) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${accessToken}`);
+
+  var formdata = new FormData();
+  formdata.append("text", postText);
+
+  for (let i = 1; i <= 4; i++) {
+    formdata.append(`media${i}`, media[i - 1]);
+  }
+
+  var requestOptions: RequestInit = {
+    method: "POST",
+    headers: myHeaders,
+    body: formdata,
+    redirect: "follow",
+  };
+
+  return fetch(`${devURL}/dhruvsocial/post/createPost`, requestOptions)
+    .then((response) => response.status)
+    .catch((error) => console.log("error", error));
+};
+
 export {
   devURL,
   handleLogin,
@@ -500,4 +523,5 @@ export {
   unLikePostEndpoint,
   postUserEndpoint,
   getChatMessages,
+  createPost,
 };

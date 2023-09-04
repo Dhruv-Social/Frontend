@@ -75,6 +75,7 @@
     }
   }
 
+  // File input
   .DHS__Home__CreatePost__FileInput {
     input[type="file"]::file-selector-button {
       margin-right: 20px;
@@ -93,6 +94,30 @@
 
     input[type="file"]::file-selector-button:hover {
       background-color: rgba($grey, 0.5);
+    }
+  }
+
+  // Submit Button
+  .DHS__Home__CreatePost__Submit {
+    padding: 0.5rem 1rem;
+
+    width: 20%;
+
+    margin: 1rem 40%;
+
+    background-color: transparent;
+    color: $white;
+
+    border: 0.2rem solid $white;
+    border-radius: 1rem;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: $accent;
+      border: 0.2rem solid $accent;
     }
   }
 }

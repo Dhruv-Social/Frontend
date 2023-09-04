@@ -1,12 +1,13 @@
 import "./home.scss";
 
 // Imports
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   getAccessToken,
   getProfileData,
   getForYouPosts,
+  createPost,
 } from "../../core/requests";
 import { __ProfilePostsPost } from "../profile/profile";
 import { User, Post } from "../../core/interfaces";
@@ -75,9 +76,50 @@ const _HomeCreatePost: FC<_IHomeCreatePost> = ({
   profilePicture,
   displayName,
 }) => {
+  // Getting the refresh token from session storage
+  const refreshToken = sessionStorage.getItem("refreshToken");
+
+  // Data from post section
+  const postText = useRef(null);
+  const [fileList, setFileList] = useState<FileList | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFileList(e.target.files);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (refreshToken === null) {
+      return;
+    }
+
+    if (fileList === null) {
+      return;
+    }
+
+    if (fileList.length > 4) {
+      return alert("You can not have more than 4 images");
+    }
+
+    getAccessToken(refreshToken).then((token) => {
+      createPost(token, (postText.current as any).value, fileList).then(
+        (result) => {
+          if (result === 201) {
+            alert("Successfully created post");
+          } else {
+            alert(
+              "An unknown error has caused the post to fail, please try again later"
+            );
+          }
+        }
+      );
+    });
+  };
+
   // Return JSX
   return (
-    <div className="DHS__Home__CreatePost">
+    <form className="DHS__Home__CreatePost" onSubmit={handleFormSubmit}>
       <div className="DHS__Home__CreatePost__UserData">
         <div
           className="DHS__Home__CreatePost__UserData__Image"
@@ -90,12 +132,25 @@ const _HomeCreatePost: FC<_IHomeCreatePost> = ({
         </h3>
       </div>
       <div className="DHS__Home__CreatePost__Input">
-        <input type="text" placeholder="Say Something Awesome..." />
+        <input
+          type="text"
+          ref={postText}
+          placeholder="Say Something Awesome..."
+        />
       </div>
       <div className="DHS__Home__CreatePost__FileInput">
-        <input type="file" accept="image/*" multiple={true} />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          multiple
+        />
       </div>
-    </div>
+
+      <button className="DHS__Home__CreatePost__Submit" type="submit">
+        Post
+      </button>
+    </form>
   );
 };
 
