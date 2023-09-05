@@ -12,6 +12,9 @@ import {
 import { __ProfilePostsPost } from "../profile/profile";
 import { User, Post } from "../../core/interfaces";
 
+import ErrorNotification from "../error/error";
+import SuccessNotification from "../success/success";
+
 // Interface for function component
 interface IHomeProps {}
 
@@ -71,6 +74,14 @@ interface _IHomeCreatePost {
   displayName: string;
 }
 
+interface INotification {
+  isError: boolean;
+  details: {
+    title: string;
+    description: string;
+  };
+}
+
 // Function component
 const _HomeCreatePost: FC<_IHomeCreatePost> = ({
   profilePicture,
@@ -78,6 +89,8 @@ const _HomeCreatePost: FC<_IHomeCreatePost> = ({
 }) => {
   // Getting the refresh token from session storage
   const refreshToken = sessionStorage.getItem("refreshToken");
+
+  const [notification, setNotification] = useState<INotification | null>(null);
 
   // Data from post section
   const postText = useRef(null);
@@ -94,23 +107,68 @@ const _HomeCreatePost: FC<_IHomeCreatePost> = ({
       return;
     }
 
-    if (fileList === null) {
+    if ((postText.current as any).value === "") {
+      setNotification({
+        isError: true,
+        details: {
+          title: "Post Error",
+          description: "You need text to make a post.",
+        },
+      });
+
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
       return;
     }
 
-    if (fileList.length > 4) {
-      return alert("You can not have more than 4 images");
+    if (fileList !== null) {
+      if (fileList.length > 4) {
+        setNotification({
+          isError: true,
+          details: {
+            title: "File Error",
+            description: "Can not post more than 4 images",
+          },
+        });
+
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+        return;
+      }
     }
 
     getAccessToken(refreshToken).then((token) => {
       createPost(token, (postText.current as any).value, fileList).then(
         (result) => {
           if (result === 201) {
-            alert("Successfully created post");
+            setNotification({
+              isError: false,
+              details: {
+                title: "Success",
+                description: "You post has been successfuly created",
+              },
+            });
+
+            setTimeout(() => {
+              setNotification(null);
+            }, 5000);
+            return;
           } else {
-            alert(
-              "An unknown error has caused the post to fail, please try again later"
-            );
+            setNotification({
+              isError: true,
+              details: {
+                title: "Post Error",
+                description:
+                  "An unknwon error has occoured while trying to create your post. Please try again later",
+              },
+            });
+
+            setTimeout(() => {
+              setNotification(null);
+            }, 5000);
+            return;
           }
         }
       );
@@ -119,38 +177,54 @@ const _HomeCreatePost: FC<_IHomeCreatePost> = ({
 
   // Return JSX
   return (
-    <form className="DHS__Home__CreatePost" onSubmit={handleFormSubmit}>
-      <div className="DHS__Home__CreatePost__UserData">
-        <div
-          className="DHS__Home__CreatePost__UserData__Image"
-          style={{
-            backgroundImage: `url("${"data:image/jpeg;base64,"}${profilePicture}")`,
-          }}
-        ></div>
-        <h3 className="DHS__Home__CreatePost__UserData__DispayName">
-          {displayName}
-        </h3>
-      </div>
-      <div className="DHS__Home__CreatePost__Input">
-        <input
-          type="text"
-          ref={postText}
-          placeholder="Say Something Awesome..."
-        />
-      </div>
-      <div className="DHS__Home__CreatePost__FileInput">
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          multiple
-        />
-      </div>
+    <>
+      {notification !== null ? (
+        notification.isError ? (
+          <ErrorNotification
+            error={notification.details.title}
+            description={notification.details.description}
+          />
+        ) : (
+          <SuccessNotification
+            success={notification.details.title}
+            description={notification.details.description}
+          />
+        )
+      ) : null}
 
-      <button className="DHS__Home__CreatePost__Submit" type="submit">
-        Post
-      </button>
-    </form>
+      <form className="DHS__Home__CreatePost" onSubmit={handleFormSubmit}>
+        <div className="DHS__Home__CreatePost__UserData">
+          <div
+            className="DHS__Home__CreatePost__UserData__Image"
+            style={{
+              backgroundImage: `url("${"data:image/jpeg;base64,"}${profilePicture}")`,
+            }}
+          ></div>
+          <h3 className="DHS__Home__CreatePost__UserData__DispayName">
+            {displayName}
+          </h3>
+        </div>
+        <div className="DHS__Home__CreatePost__Input">
+          <input
+            type="text"
+            ref={postText}
+            placeholder="Say Something Awesome..."
+          />
+        </div>
+        <div className="DHS__Home__CreatePost__FileInput">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            multiple
+          />
+        </div>
+
+        <button className="DHS__Home__CreatePost__Submit" type="submit">
+          Post
+        </button>
+      </form>
+    </>
   );
 };
 

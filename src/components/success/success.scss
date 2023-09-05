@@ -1,13 +1,15 @@
-.DHS__Error {
+.DHS__Success {
   position: absolute;
   top: 1rem;
   right: -25%;
   z-index: 1000;
 
   border-radius: 1rem;
-  border: 0.2rem red solid;
+  border: 0.2rem green solid;
 
-  background-color: #ff6961;
+  background-color: lightgreen;
+
+  color: black;
 
   min-width: 400px;
   max-width: 500px;
@@ -16,7 +18,7 @@
   animation-duration: 5s;
   overflow: hidden;
 
-  .DHS__Error__Inner {
+  .DHS__Success__Inner {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,7 +30,7 @@
     padding: 1rem;
   }
 
-  .DHS__Error__Loading {
+  .DHS__Success__Loading {
     position: absolute;
 
     width: 100%;
@@ -45,7 +47,7 @@
 }
 
 // Icon
-.DHS__Error div:nth-child(1) {
+.DHS__Success div:nth-child(1) {
   width: 20%;
 
   font-size: 3rem;
@@ -56,7 +58,7 @@
 }
 
 // Text
-.DHS__Error div:nth-child(2) {
+.DHS__Success div:nth-child(2) {
   width: 80%;
 }
 

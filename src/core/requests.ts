@@ -481,15 +481,21 @@ const getChatMessages = (accessToken: string, forUser: string) => {
     .catch((error) => console.log("error", error));
 };
 
-const createPost = (accessToken: string, postText: string, media: FileList) => {
+const createPost = (
+  accessToken: string,
+  postText: string,
+  media: FileList | null
+) => {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${accessToken}`);
 
   var formdata = new FormData();
   formdata.append("text", postText);
 
-  for (let i = 1; i <= 4; i++) {
-    formdata.append(`media${i}`, media[i - 1]);
+  if (media !== null) {
+    for (let i = 1; i <= 4; i++) {
+      formdata.append(`media${i}`, media[i - 1]);
+    }
   }
 
   var requestOptions: RequestInit = {
