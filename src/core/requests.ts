@@ -387,13 +387,25 @@ const unLikePostEndpoint = (accessToken: string, postUuid: string) => {
     .catch((error) => console.log("error", error));
 };
 
+interface INotification {
+  isError: boolean;
+  details: {
+    title: string;
+    description: string;
+  };
+}
+
 /**
  * Function to post a user to the API
  * @param userData IUser
  * @param navigate Navigate Function
  * @returns Promise of the API return data
  */
-const postUserEndpoint = (userData: IUser, navigate: NavigateFunction) => {
+const postUserEndpoint = (
+  userData: IUser,
+  navigate: NavigateFunction,
+  setNotification: (_: INotification | null) => void
+) => {
   var formdata = new FormData();
 
   if (
@@ -405,9 +417,21 @@ const postUserEndpoint = (userData: IUser, navigate: NavigateFunction) => {
     userData.phonenumber === null ||
     userData.password === null
   ) {
-    return false;
+    setNotification({
+      isError: true,
+      details: {
+        title: "Form Error",
+        description: "Some data entered was null, please try again.",
+      },
+    });
+
+    setTimeout(() => {
+      setNotification(null);
+    }, 5000);
+    return;
   }
 
+  // Async Context
   (async () => {
     const { privateKey, publicKey } = await generateKeys();
 
@@ -446,10 +470,32 @@ const postUserEndpoint = (userData: IUser, navigate: NavigateFunction) => {
       .then((response) => response.text())
       .then((result) => {
         if (result === "success") {
-          alert("Please check your email for next steps on how to verify");
-          navigate("/login");
+          setNotification({
+            isError: false,
+            details: {
+              title: "Success",
+              description: "Please check your email on how to verify",
+            },
+          });
+
+          console.log("set notification");
+
+          setTimeout(() => {
+            setNotification(null);
+            navigate("/login");
+          }, 5000);
         } else {
-          alert(JSON.parse(result).details.reason);
+          setNotification({
+            isError: true,
+            details: {
+              title: "API Error",
+              description: JSON.parse(result).details.reason,
+            },
+          });
+
+          setTimeout(() => {
+            setNotification(null);
+          }, 5000);
         }
       })
       .catch((error) => console.log("error", error));

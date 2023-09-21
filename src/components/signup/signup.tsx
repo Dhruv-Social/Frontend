@@ -1,6 +1,7 @@
 import "./signup.scss";
 
 import { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { IUser } from "./signupInterface";
 import { postUserEndpoint } from "../../core/requests";
 
@@ -9,9 +10,19 @@ import SignupModal1 from "./modals/modal1/modal1";
 import SignupModal2 from "./modals/modal2/modal2";
 import SignupModal3 from "./modals/modal3/modal3";
 import SignupModal4 from "./modals/modal4/modal4";
-import { useNavigate } from "react-router-dom";
+
+import ErrorNotification from "../error/error";
+import SuccessNotification from "../success/success";
 
 interface ISignUpProps {}
+
+interface INotification {
+  isError: boolean;
+  details: {
+    title: string;
+    description: string;
+  };
+}
 
 const Signup: FC<ISignUpProps> = ({}) => {
   const navigate = useNavigate();
@@ -26,8 +37,8 @@ const Signup: FC<ISignUpProps> = ({}) => {
     phonenumber: null,
     password: null,
   });
-
   let [submitData, setSubmitData] = useState<boolean>(false);
+  let [notification, setNotification] = useState<INotification | null>(null);
 
   useEffect(() => {
     if (submitData) {
@@ -38,7 +49,7 @@ const Signup: FC<ISignUpProps> = ({}) => {
         userData.firstname === null ||
         userData.lastname === null
       ) {
-        alert("Bro tried to pull a fast one on me");
+        alert("Unknown error, an item was null");
         return setModal(0);
       }
 
@@ -53,12 +64,25 @@ const Signup: FC<ISignUpProps> = ({}) => {
       }
 
       // Now we call the API
-      postUserEndpoint(userData, navigate);
+      postUserEndpoint(userData, navigate, setNotification);
     }
   }, [submitData]);
 
   return (
     <>
+      {notification !== null ? (
+        notification.isError ? (
+          <ErrorNotification
+            error={notification.details.title}
+            description={notification.details.description}
+          />
+        ) : (
+          <SuccessNotification
+            success={notification.details.title}
+            description={notification.details.description}
+          />
+        )
+      ) : null}
       {modal === 0 ? (
         <SignupModal1
           modal={modal}

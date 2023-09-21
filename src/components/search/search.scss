@@ -22,7 +22,7 @@
     border: none;
     border-radius: 2rem;
 
-    color: $black;
+    color: $white;
 
     font-family: inherit;
 
@@ -56,6 +56,12 @@
 // Users
 .DHS__Search__Users {
   width: 100%;
+
+  h1 {
+    text-align: center;
+
+    margin-top: 2rem;
+  }
 
   .DHS__Search__Users__User {
     width: 60%;

@@ -32,11 +32,6 @@ const Messages: FC<IMessages> = ({}) => {
     }
   }, []);
 
-  // Get the chats on socket event
-  socket.on("getChats", (data) => {
-    console.log(JSON.parse(data).length);
-  });
-
   // Return JSX
   return (
     <main className="DHS__Message">

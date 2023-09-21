@@ -35,6 +35,7 @@ const ProfileOther: FC<IProfileOtherProps> = ({}) => {
   let [profileData, setProfileData] = useState<UserOther | null>(null);
   let [posts, setPosts] = useState<Post[] | null>(null);
   let [isFollowing, setIsFollowing] = useState<boolean | null>(null);
+  let [doesUserExist, setDoesUserExist] = useState<boolean>(true);
 
   // UseEffect to get that users data
   useEffect(() => {
@@ -46,6 +47,10 @@ const ProfileOther: FC<IProfileOtherProps> = ({}) => {
 
       // Get the data
       getOtherUser(token, userUUID).then((userData) => {
+        if (userData.success === false) {
+          setDoesUserExist(false);
+        }
+
         setProfileData(userData);
       });
       getIfFollowing(token, userUUID).then((isFollowingJson) => {
@@ -58,28 +63,38 @@ const ProfileOther: FC<IProfileOtherProps> = ({}) => {
   }, []);
 
   return (
-    <main className="DHS__Profile">
-      {/* CONDITIONAL RENDERING: if the data is null, then we know the API has not returned the data */}
-      {profileData !== null &&
-      isFollowing !== null &&
-      posts !== null &&
-      refreshToken !== null ? (
-        <>
-          <_ProfileOtherTop
-            profilePicture={profileData.profilePicture}
-            banner={profileData.banner}
-          />
-          <_ProfileOtherBotton
-            uuid={profileData.uuid}
-            isFollowing={isFollowing}
-            refreshToken={refreshToken}
-          />
-          <_ProfileOtherPosts posts={posts} />
-        </>
+    <>
+      {doesUserExist ? (
+        <main className="DHS__Profile">
+          {/* CONDITIONAL RENDERING: if the data is null, then we know the API has not returned the data */}
+          {profileData !== null &&
+          isFollowing !== null &&
+          posts !== null &&
+          refreshToken !== null ? (
+            <>
+              <_ProfileOtherTop
+                profilePicture={profileData.profilePicture}
+                banner={profileData.banner}
+              />
+              <_ProfileOtherBotton
+                uuid={profileData.uuid}
+                isFollowing={isFollowing}
+                refreshToken={refreshToken}
+              />
+              <_ProfileOtherPosts posts={posts} />
+            </>
+          ) : (
+            <h3>Loading</h3>
+          )}
+        </main>
       ) : (
-        <h3>Loading</h3>
+        <main className="DHS__Profile__DoesNotExist">
+          <h2 className="DHS__Profile__DoesNotExist_Text">
+            This user does not exist
+          </h2>
+        </main>
       )}
-    </main>
+    </>
   );
 };
 

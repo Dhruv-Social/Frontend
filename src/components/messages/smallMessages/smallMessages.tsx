@@ -1,7 +1,7 @@
 import "./smallMessages.scss";
 
 // Imports
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { IChatSmall } from "../messagesInterface";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../../../core/socket";
@@ -17,7 +17,11 @@ const SmallMessages: FC<ISmallMessagesProps> = ({}) => {
   // State to store the chats that the user is in
   const [chats, setChats] = useState<IChatSmall[] | null>(null);
 
-  // Om the chats message, we change the state
+  // On the chats message, we change the state
+  useEffect(() => {
+    socket.emit("returnChats");
+  }, []);
+
   socket.on("chats", (chats) => {
     setChats(chats);
   });
